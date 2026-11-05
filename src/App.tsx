@@ -4,6 +4,7 @@ import { CategoryModal } from './components/CategoryModal'
 import { EndGameDialog } from './components/EndGameDialog'
 import { DownloadIcon, FlagIcon, XIcon } from './components/Icons'
 import { InstallHelpModal } from './components/InstallHelpModal'
+import { PlayerNamesModal } from './components/PlayerNamesModal'
 import { RecoveryDialog } from './components/RecoveryDialog'
 import { ScoreConfigModal } from './components/ScoreConfigModal'
 import { VisualThemeModal } from './components/VisualThemeModal'
@@ -48,6 +49,7 @@ export default function App() {
   const [entered, setEntered] = useState(false)
   const [endGameOpen, setEndGameOpen] = useState(false)
   const [aboutOpen, setAboutOpen] = useState(false)
+  const [playersOpen, setPlayersOpen] = useState(false)
 
   useEffect(() => {
     preloadSounds()
@@ -108,6 +110,7 @@ export default function App() {
       onOpenScoreConfig={() => setScoreConfigOpen(true)}
       onOpenVisualTheme={() => setThemeModalOpen(true)}
       onOpenAbout={() => setAboutOpen(true)}
+      onOpenPlayers={() => setPlayersOpen(true)}
       onOpenCategory={() => setCategoryOpen(true)}
       onStart={startGame}
     />
@@ -277,6 +280,14 @@ export default function App() {
           isIos={isIos}
           onInstall={handleAboutInstall}
           onClose={() => setAboutOpen(false)}
+        />
+      ) : null}
+
+      {playersOpen ? (
+        <PlayerNamesModal
+          names={draft.names}
+          onChange={updateDraft}
+          onClose={() => setPlayersOpen(false)}
         />
       ) : null}
 

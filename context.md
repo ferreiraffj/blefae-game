@@ -188,7 +188,7 @@ Os tipos e defaults estão centralizados em [`src/domain/types.ts`](src/domain/t
 
 - normalização de texto com remoção de acentos, espaços e pontuação;
 - distância de Levenshtein;
-- avaliação de palpite exato ou provável erro de digitação;
+- avaliação de palpite exato, erro por token e resposta parcial;
 - sorteio ponderado da ordem de fala, com 20% de chance total de o impostor começar;
 - contagem de votos e classificação do veredito;
 - cálculo dos pontos da rodada;
@@ -196,9 +196,12 @@ Os tipos e defaults estão centralizados em [`src/domain/types.ts`](src/domain/t
 - validação e criação de IDs de jogadores;
 - embaralhamento e validação mínima de um estado salvo.
 
-O palpite digitado é comparado após normalização. Distância de até 2 caracteres é tratada como
-possível erro para palavras maiores; para palavras curtas, o limite é 1. O modo de múltipla escolha
-não usa essa confirmação: as alternativas são geradas pelo banco de palavras.
+O palpite digitado é comparado após normalização. Distância de até 2 caracteres por palavra é
+tratada como possível erro para palavras maiores; para palavras curtas, o limite é 1. Em palavras
+compostas, tokens correspondentes ou respostas incompletas também entram em
+`GUESS_CONFIRMATION`, sem serem aceitos automaticamente. Assim, um palpite como `fone` para
+`Fone de ouvido` é decidido pelo grupo. O modo de múltipla escolha não usa essa confirmação:
+as alternativas são geradas pelo banco de palavras.
 
 [`src/domain/words.ts`](src/domain/words.ts) contém o banco local, com 12 temas e o tema aleatório.
 Ele também:
@@ -252,6 +255,7 @@ Telas em [`src/screens/`](src/screens/):
 Componentes em [`src/components/`](src/components/):
 
 - botão, modal e ícones reutilizáveis;
+- cadastro de jogadores em modal, com apenas o resumo e o botão de edição na configuração;
 - controles de tema, partida e sobre na barra superior da configuração;
 - configuração de categoria, pontuação e tema visual;
 - recuperação de partida;

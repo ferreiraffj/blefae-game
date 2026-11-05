@@ -1,9 +1,7 @@
-import { useMemo, useRef, useState, type CSSProperties } from 'react'
+import { type CSSProperties } from 'react'
 import { Button, IconButton } from '../components/Button'
 import { ChevronDownIcon, InfoIcon, PaletteIcon, SlidersIcon } from '../components/Icons'
-import { validatePlayerNames } from '../domain/engine'
 import type { SetupDraft } from '../domain/types'
-import { cx } from '../utils'
 
 interface SetupScreenProps {
   draft: SetupDraft
@@ -11,6 +9,7 @@ interface SetupScreenProps {
   onOpenScoreConfig: () => void
   onOpenVisualTheme: () => void
   onOpenAbout: () => void
+  onOpenPlayers: () => void
   onOpenCategory: () => void
   onStart: () => void
 }
@@ -21,37 +20,15 @@ export function SetupScreen({
   onOpenScoreConfig,
   onOpenVisualTheme,
   onOpenAbout,
+  onOpenPlayers,
   onOpenCategory,
   onStart,
 }: SetupScreenProps) {
-  const [shake, setShake] = useState(false)
-  const timer = useRef<number | null>(null)
-
-  const summary = useMemo(() => {
-    const trimmed = draft.names.map((name) => name.trim())
-    const filled = trimmed.filter(Boolean)
-    const validation = validatePlayerNames(draft.names)
-    return {
-      filledCount: filled.length,
-      hasDuplicates: filled.length > new Set(filled).size,
-      canStart: validation.ok,
-    }
-  }, [draft.names])
-
-  function updateName(index: number, value: string) {
-    const names = draft.names.map((name, currentIndex) => (currentIndex === index ? value : name))
-    onChange({ names })
-  }
-
   function handleStart() {
-    if (!summary.canStart) {
-      setShake(true)
-      if (timer.current) window.clearTimeout(timer.current)
-      timer.current = window.setTimeout(() => setShake(false), 500)
-      return
-    }
     onStart()
   }
+
+  const filledCount = draft.names.filter((name) => name.trim()).length
 
   return (
     <div className="screen screen--setup">
@@ -73,44 +50,18 @@ export function SetupScreen({
         </div>
       </div>
 
-      <div className="player-list scroll-area">
-        {draft.names.map((name, index) => (
-          <label className="player-field" key={index}>
-            <span className="player-field__index" aria-hidden="true">
-              {index + 1}
-            </span>
-            <span className="player-field__body">
-              <span className="field__label">Jogador {index + 1}</span>
-              <input
-                className="input"
-                value={name}
-                onChange={(event) => updateName(index, event.target.value)}
-                placeholder={`Nome do jogador ${index + 1}`}
-                maxLength={24}
-                autoComplete="off"
-                autoCapitalize="words"
-                enterKeyHint="next"
-              />
-            </span>
-          </label>
-        ))}
-      </div>
-
-      <div className="row row--2">
-        <Button
-          variant="ghost"
-          disabled={draft.names.length <= 3}
-          onClick={() => onChange({ names: draft.names.slice(0, -1) })}
-        >
-          − Remover
-        </Button>
-        <Button
-          variant="ghost"
-          disabled={draft.names.length >= 12}
-          onClick={() => onChange({ names: [...draft.names, ''] })}
-        >
-          ＋ Adicionar
-        </Button>
+      <div className="setup-section">
+        <div className="row row--between">
+          <div>
+            <span className="field__label field__label--section">Jogadores</span>
+            <p className="setup-section__summary">
+              {filledCount} de {draft.names.length} participantes cadastrados
+            </p>
+          </div>
+          <Button variant="ghost" onClick={onOpenPlayers}>
+            EDITAR
+          </Button>
+        </div>
       </div>
 
       <div className="section">
@@ -151,24 +102,13 @@ export function SetupScreen({
         </div>
       </div>
 
-      <div className={cx('setup-bottom', shake && 'shake')}>
+      <div className="setup-bottom">
         <Button block onClick={handleStart}>
           INICIAR PARTIDA
         </Button>
 
-        <p
-          className={cx(
-            'hint',
-            !summary.canStart && 'hint--error',
-            summary.canStart && 'hint--ok',
-          )}
-          aria-live="polite"
-        >
-          {summary.filledCount < 3
-            ? `⚠️ Preencha pelo menos 3 participantes (${summary.filledCount}/3)`
-            : summary.hasDuplicates
-              ? '⚠️ Não repita nomes de jogadores!'
-              : `✓ ${summary.filledCount} participantes prontos`}
+        <p className="hint hint--ok" aria-live="polite">
+          {filledCount >= 3 ? `✓ ${filledCount} participantes prontos` : '⚠️ Cadastre pelo menos 3 participantes'}
         </p>
       </div>
     </div>

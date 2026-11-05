@@ -6,7 +6,10 @@ export interface GuessEvaluation {
   editDistance: number
   cleanGuess: string
   cleanTarget: string
+  reviewReason?: GuessReviewReason
 }
+
+export type GuessReviewReason = 'typo' | 'partial' | 'missing-word' | 'token-order'
 
 /**
  * Normaliza uma string para comparação justa:
@@ -43,10 +46,35 @@ export function levenshteinDistance(a: string, b: string): number {
   return dp[m][n]
 }
 
+const IGNORED_GUESS_TOKENS = new Set(['a', 'o', 'as', 'os', 'e', 'de', 'da', 'do', 'das', 'dos'])
+
+function tokenize(value: string): string[] {
+  return value
+    .trim()
+    .normalize('NFD')
+    .replace(/\p{M}/gu, '')
+    .toLowerCase()
+    .replace(/[^a-zA-Z0-9]+/g, ' ')
+    .split(/\s+/)
+    .filter(Boolean)
+}
+
+function typoThreshold(word: string): number {
+  return word.length <= 4 ? 1 : 2
+}
+
+function hasCloseToken(token: string, targetTokens: readonly string[]): boolean {
+  return targetTokens.some(
+    (targetToken) =>
+      token === targetToken ||
+      levenshteinDistance(token, targetToken) <= typoThreshold(targetToken),
+  )
+}
+
 /**
  * Avalia o palpite do impostor.
- * Um erro pequeno de digitação (distância <= 2, ou <= 1 em palavras curtas)
- * aciona a validação pelos civis.
+ * Erros pequenos e palpites incompletos de palavras compostas acionam a validação
+ * pelos civis, em vez de serem marcados automaticamente como incorretos.
  */
 export function evaluateGuess(guess: string, targetWord: string): GuessEvaluation {
   const cleanGuess = normalize(guess)
@@ -64,14 +92,49 @@ export function evaluateGuess(guess: string, targetWord: string): GuessEvaluatio
 
   const exact = cleanGuess === cleanTarget
   const distance = levenshteinDistance(cleanGuess, cleanTarget)
-  const typoThreshold = cleanTarget.length <= 4 ? 1 : 2
+  const allTargetTokens = tokenize(targetWord)
+  const allGuessTokens = tokenize(guess)
+  const targetTokens = tokenize(targetWord).filter((token) => !IGNORED_GUESS_TOKENS.has(token))
+  const guessTokens = tokenize(guess).filter((token) => !IGNORED_GUESS_TOKENS.has(token))
+
+  if (exact) {
+    return {
+      isExact: true,
+      isLikelyTypo: false,
+      editDistance: distance,
+      cleanGuess,
+      cleanTarget,
+    }
+  }
+
+  if (targetTokens.length > 1 && guessTokens.length > 0) {
+    const allGuessTokensMatch = guessTokens.every((token) => hasCloseToken(token, targetTokens))
+    const matchedTargetTokens = targetTokens.filter((token) =>
+      guessTokens.some((guessToken) => hasCloseToken(guessToken, [token])),
+    )
+
+    if (allGuessTokensMatch && matchedTargetTokens.length > 0) {
+      const isPartial =
+        matchedTargetTokens.length < targetTokens.length ||
+        allGuessTokens.length < allTargetTokens.length
+      return {
+        isExact: false,
+        isLikelyTypo: true,
+        editDistance: distance,
+        cleanGuess,
+        cleanTarget,
+        reviewReason: isPartial ? 'partial' : 'typo',
+      }
+    }
+  }
 
   return {
     isExact: exact,
-    isLikelyTypo: !exact && distance <= typoThreshold,
+    isLikelyTypo: !exact && distance <= typoThreshold(cleanTarget),
     editDistance: distance,
     cleanGuess,
     cleanTarget,
+    reviewReason: !exact && distance <= typoThreshold(cleanTarget) ? 'typo' : undefined,
   }
 }
 

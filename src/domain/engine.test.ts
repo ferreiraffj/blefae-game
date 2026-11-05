@@ -58,6 +58,28 @@ describe('avaliação do palpite do impostor', () => {
     expect(evaluateGuess('carro', 'Gato').isLikelyTypo).toBe(false)
   })
 
+  it('envia palpites parciais de palavras compostas para validação', () => {
+    const partial = evaluateGuess('fone', 'Fone de ouvido')
+    expect(partial.isExact).toBe(false)
+    expect(partial.isLikelyTypo).toBe(true)
+    expect(partial.reviewReason).toBe('partial')
+
+    const missingWord = evaluateGuess('fone ouvido', 'Fone de ouvido')
+    expect(missingWord.isLikelyTypo).toBe(true)
+    expect(missingWord.reviewReason).toBe('partial')
+  })
+
+  it('detecta erro em um token de uma palavra composta', () => {
+    const result = evaluateGuess('fone de ouvid', 'Fone de ouvido')
+    expect(result.isLikelyTypo).toBe(true)
+    expect(result.reviewReason).toBe('typo')
+  })
+
+  it('não trata uma palavra não relacionada como palpite parcial', () => {
+    expect(evaluateGuess('carro', 'Fone de ouvido').isLikelyTypo).toBe(false)
+    expect(evaluateGuess('fone de carro', 'Fone de ouvido').isLikelyTypo).toBe(false)
+  })
+
   it('não aceita palpite vazio', () => {
     const result = evaluateGuess('   ', 'Gato')
     expect(result.isExact).toBe(false)

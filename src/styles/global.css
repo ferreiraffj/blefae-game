@@ -462,6 +462,19 @@ img {
   padding: 16px;
 }
 
+.setup-section {
+  padding: 13px 14px;
+  border: 1px solid var(--outline);
+  border-radius: var(--radius-sm);
+  background: rgba(var(--accent-rgb), 0.045);
+}
+
+.setup-section__summary {
+  margin: 3px 0 0;
+  color: var(--muted);
+  font-size: 12px;
+}
+
 .screen__footer {
   margin-top: auto;
 }
@@ -906,6 +919,14 @@ img {
   flex: 1 1 auto;
   flex-direction: column;
   gap: 7px;
+  padding-right: 3px;
+}
+
+.player-modal__list {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  max-height: min(52dvh, 470px);
   padding-right: 3px;
 }
 
@@ -2120,6 +2141,10 @@ html[data-theme='light'] .modal__footer {
 }
 
 .modal--theme {
+  max-width: 430px;
+}
+
+.modal--players {
   max-width: 430px;
 }
 

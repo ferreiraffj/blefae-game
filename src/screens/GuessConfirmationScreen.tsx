@@ -31,7 +31,8 @@ export function GuessConfirmationScreen({ game, onConfirm }: GuessConfirmationSc
         </div>
 
         <p className="confirm__help">
-          O palpite digitado conta como correto apesar do erro de digitação?
+          O palpite parece uma resposta parecida ou incompleta. O grupo considera esse palpite
+          correto?
         </p>
       </div>
 
