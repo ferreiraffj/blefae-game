@@ -6,7 +6,6 @@ import { DownloadIcon, FlagIcon, XIcon } from './components/Icons'
 import { InstallHelpModal } from './components/InstallHelpModal'
 import { RecoveryDialog } from './components/RecoveryDialog'
 import { ScoreConfigModal } from './components/ScoreConfigModal'
-import { SideMenu } from './components/SideMenu'
 import { VisualThemeModal } from './components/VisualThemeModal'
 import { validatePlayerNames } from './domain/engine'
 import type { GameState, GuessMode, ScoreConfig, SetupDraft } from './domain/types'
@@ -48,7 +47,6 @@ export default function App() {
   const [expiredNotice, setExpiredNotice] = useState(recoveredGameExpired)
   const [entered, setEntered] = useState(false)
   const [endGameOpen, setEndGameOpen] = useState(false)
-  const [menuOpen, setMenuOpen] = useState(false)
   const [aboutOpen, setAboutOpen] = useState(false)
 
   useEffect(() => {
@@ -67,15 +65,6 @@ export default function App() {
     document.addEventListener('click', handleClick)
     return () => document.removeEventListener('click', handleClick)
   }, [])
-
-  useEffect(() => {
-    if (!menuOpen) return
-    function handleKeyDown(event: KeyboardEvent) {
-      if (event.key === 'Escape') setMenuOpen(false)
-    }
-    window.addEventListener('keydown', handleKeyDown)
-    return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [menuOpen])
 
   function updateDraft(patch: Partial<SetupDraft>) {
     setDraft((current) => ({ ...current, ...patch }))
@@ -112,15 +101,13 @@ export default function App() {
     await handleInstall()
   }
 
-  function openFromMenu(action: () => void) {
-    setMenuOpen(false)
-    action()
-  }
-
   const setupScreen = (
     <SetupScreen
       draft={draft}
       onChange={updateDraft}
+      onOpenScoreConfig={() => setScoreConfigOpen(true)}
+      onOpenVisualTheme={() => setThemeModalOpen(true)}
+      onOpenAbout={() => setAboutOpen(true)}
       onOpenCategory={() => setCategoryOpen(true)}
       onStart={startGame}
     />
@@ -282,6 +269,15 @@ export default function App() {
 
       {installHelpOpen ? (
         <InstallHelpModal isIos={isIos} onClose={() => setInstallHelpOpen(false)} />
+      ) : null}
+
+      {aboutOpen ? (
+        <AboutModal
+          installed={installed}
+          isIos={isIos}
+          onInstall={handleAboutInstall}
+          onClose={() => setAboutOpen(false)}
+        />
       ) : null}
 
       {recoveryPending && entered && game ? (

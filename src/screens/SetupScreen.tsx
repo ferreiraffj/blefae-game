@@ -1,6 +1,6 @@
 import { useMemo, useRef, useState, type CSSProperties } from 'react'
 import { Button, IconButton } from '../components/Button'
-import { ChevronDownIcon, PaletteIcon, SlidersIcon } from '../components/Icons'
+import { ChevronDownIcon, InfoIcon, PaletteIcon, SlidersIcon } from '../components/Icons'
 import { validatePlayerNames } from '../domain/engine'
 import type { SetupDraft } from '../domain/types'
 import { cx } from '../utils'
@@ -10,6 +10,7 @@ interface SetupScreenProps {
   onChange: (patch: Partial<SetupDraft>) => void
   onOpenScoreConfig: () => void
   onOpenVisualTheme: () => void
+  onOpenAbout: () => void
   onOpenCategory: () => void
   onStart: () => void
 }
@@ -19,6 +20,7 @@ export function SetupScreen({
   onChange,
   onOpenScoreConfig,
   onOpenVisualTheme,
+  onOpenAbout,
   onOpenCategory,
   onStart,
 }: SetupScreenProps) {
@@ -64,6 +66,9 @@ export function SetupScreen({
           </IconButton>
           <IconButton label="Tema visual" onClick={onOpenVisualTheme}>
             <PaletteIcon />
+          </IconButton>
+          <IconButton label="Sobre" onClick={onOpenAbout}>
+            <InfoIcon />
           </IconButton>
         </div>
       </div>

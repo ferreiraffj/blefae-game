@@ -51,7 +51,7 @@ export function AboutModal({ installed, isIos, onInstall, onClose }: AboutModalP
               target="_blank"
               rel="noreferrer"
             >
-              @{APP_GITHUB_USER}
+              {APP_GITHUB_USER}
             </a>
           </dd>
         </div>
