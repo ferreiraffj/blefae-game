@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react'
+import { AboutModal } from './components/AboutModal'
 import { CategoryModal } from './components/CategoryModal'
 import { EndGameDialog } from './components/EndGameDialog'
 import { DownloadIcon, FlagIcon, XIcon } from './components/Icons'
 import { InstallHelpModal } from './components/InstallHelpModal'
 import { RecoveryDialog } from './components/RecoveryDialog'
 import { ScoreConfigModal } from './components/ScoreConfigModal'
+import { SideMenu } from './components/SideMenu'
 import { VisualThemeModal } from './components/VisualThemeModal'
 import { validatePlayerNames } from './domain/engine'
 import type { GameState, GuessMode, ScoreConfig, SetupDraft } from './domain/types'
@@ -37,7 +39,7 @@ export default function App() {
     discardRecoveredGame,
     recoveredGameExpired,
   } = useGameState()
-  const { canInstall, isIos, promptInstall } = useInstallPrompt()
+  const { canInstall, isIos, installed, promptInstall } = useInstallPrompt()
 
   const [themeModalOpen, setThemeModalOpen] = useState(false)
   const [scoreConfigOpen, setScoreConfigOpen] = useState(false)
@@ -46,6 +48,8 @@ export default function App() {
   const [expiredNotice, setExpiredNotice] = useState(recoveredGameExpired)
   const [entered, setEntered] = useState(false)
   const [endGameOpen, setEndGameOpen] = useState(false)
+  const [menuOpen, setMenuOpen] = useState(false)
+  const [aboutOpen, setAboutOpen] = useState(false)
 
   useEffect(() => {
     preloadSounds()
@@ -63,6 +67,15 @@ export default function App() {
     document.addEventListener('click', handleClick)
     return () => document.removeEventListener('click', handleClick)
   }, [])
+
+  useEffect(() => {
+    if (!menuOpen) return
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key === 'Escape') setMenuOpen(false)
+    }
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [menuOpen])
 
   function updateDraft(patch: Partial<SetupDraft>) {
     setDraft((current) => ({ ...current, ...patch }))
@@ -94,12 +107,20 @@ export default function App() {
     if (result === 'unavailable') setInstallHelpOpen(true)
   }
 
+  async function handleAboutInstall() {
+    setAboutOpen(false)
+    await handleInstall()
+  }
+
+  function openFromMenu(action: () => void) {
+    setMenuOpen(false)
+    action()
+  }
+
   const setupScreen = (
     <SetupScreen
       draft={draft}
       onChange={updateDraft}
-      onOpenScoreConfig={() => setScoreConfigOpen(true)}
-      onOpenVisualTheme={() => setThemeModalOpen(true)}
       onOpenCategory={() => setCategoryOpen(true)}
       onStart={startGame}
     />

@@ -96,6 +96,13 @@ export function clearPersistedGame(): void {
   removeRaw(GAME_KEY)
 }
 
+/** Indica que existe partida salva ainda em andamento (fora da tela inicial/final). */
+export function hasGameInProgress(): boolean {
+  const { game } = loadGame()
+  if (!game) return false
+  return game.phase !== 'FINISHED' && game.phase !== 'SETUP'
+}
+
 export function loadVisualTheme(): VisualThemeConfig {
   const stored = readJson(VISUAL_THEME_KEY)
   if (!stored || typeof stored !== 'object') return DEFAULT_VISUAL_THEME
