@@ -1,4 +1,10 @@
-import { calculateRoundPoints, createId, evaluateGuess, weightedSpeakerOrder } from '../domain/engine'
+import {
+  calculateRoundPoints,
+  createId,
+  evaluateGuess,
+  topScorers,
+  weightedSpeakerOrder,
+} from '../domain/engine'
 import { getMultipleChoiceOptions, randomWord } from '../domain/words'
 import type { GameState, GuessMode, Player, ScoreConfig } from '../domain/types'
 
@@ -19,6 +25,8 @@ export type GameAction =
   | { type: 'CONFIRM_GUESS'; accepted: boolean }
   | { type: 'ADVANCE_FROM_SCORE' }
   | { type: 'START_NEXT_ROUND'; theme: string }
+  | { type: 'START_TIEBREAKER' }
+  | { type: 'END_GAME' }
   | { type: 'RESET' }
 
 function createPlayers(names: readonly string[]): Player[] {
@@ -46,6 +54,8 @@ export function gameReducer(game: GameState | null, action: GameAction): GameSta
         word,
         impostorId,
         phase: 'REVEAL',
+        endedEarly: false,
+        tiebreakerPlayed: false,
         revealIndex: 0,
         votes: {},
         speakerOrder: weightedSpeakerOrder(players, impostorId),
@@ -155,6 +165,38 @@ export function gameReducer(game: GameState | null, action: GameAction): GameSta
         guessOptions: [],
         usedWords: [...game.usedWords, word],
       }
+    }
+
+    case 'START_TIEBREAKER': {
+      if (!game || game.phase !== 'FINISHED' || game.tiebreakerPlayed || game.endedEarly) {
+        return game
+      }
+      if (topScorers(game.players).length < 3) return game
+
+      const word = randomWord(game.theme, game.usedWords)
+      const impostorId = game.players[Math.floor(Math.random() * game.players.length)].id
+
+      return {
+        ...game,
+        round: game.round + 1,
+        word,
+        impostorId,
+        phase: 'REVEAL',
+        revealIndex: 0,
+        votes: {},
+        speakerOrder: weightedSpeakerOrder(game.players, impostorId),
+        impostorGuess: '',
+        guessCorrect: false,
+        lastRoundPoints: {},
+        guessOptions: [],
+        usedWords: [...game.usedWords, word],
+        tiebreakerPlayed: true,
+      }
+    }
+
+    case 'END_GAME': {
+      if (!game || game.phase === 'FINISHED') return game
+      return { ...game, phase: 'FINISHED', endedEarly: true }
     }
 
     default:

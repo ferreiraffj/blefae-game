@@ -145,8 +145,14 @@ export function calculateRoundPoints(game: SavedGameLike): Record<string, number
   return result
 }
 
-export type Verdict = 'tie' | 'majority' | 'minority' | 'unnoticed'
+/** Jogadores com a maior pontuação (usado para detectar empates no topo). */
+export function topScorers(players: readonly Player[]): Player[] {
+  if (players.length === 0) return []
+  const highest = Math.max(...players.map((player) => player.points))
+  return players.filter((player) => player.points === highest)
+}
 
+export type Verdict = 'tie' | 'majority' | 'minority' | 'unnoticed'
 export function voteVerdict(game: SavedGameLike): Verdict {
   const tally = tallyVotes(game)
   const impostorVotes = tally[game.impostorId] ?? 0

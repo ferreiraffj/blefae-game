@@ -49,6 +49,10 @@ export interface GameState {
   word: string
   impostorId: string
   phase: Phase
+  /** A partida foi encerrada pelos jogadores antes da última rodada. */
+  endedEarly?: boolean
+  /** Indica que a rodada de desempate já foi disputada (só pode acontecer uma vez). */
+  tiebreakerPlayed?: boolean
   revealIndex: number
   votes: Record<string, string>
   speakerOrder: string[]

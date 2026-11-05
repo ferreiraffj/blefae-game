@@ -1,6 +1,7 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { CategoryModal } from './components/CategoryModal'
-import { DownloadIcon, XIcon } from './components/Icons'
+import { EndGameDialog } from './components/EndGameDialog'
+import { DownloadIcon, FlagIcon, XIcon } from './components/Icons'
 import { InstallHelpModal } from './components/InstallHelpModal'
 import { RecoveryDialog } from './components/RecoveryDialog'
 import { ScoreConfigModal } from './components/ScoreConfigModal'
@@ -16,11 +17,14 @@ import { RoundTransitionScreen } from './screens/RoundTransitionScreen'
 import { ScoreScreen } from './screens/ScoreScreen'
 import { SetupScreen } from './screens/SetupScreen'
 import { SpeakingScreen } from './screens/SpeakingScreen'
+import { StartScreen } from './screens/StartScreen'
 import { VotingScreen } from './screens/VotingScreen'
 import { useGameState } from './state/useGameState'
 import { useInstallPrompt } from './state/useInstallPrompt'
 import { useSetupDraft } from './state/useSetupDraft'
 import { useVisualTheme } from './state/useVisualTheme'
+import { preloadSounds, playSound } from './utils/sound'
+import { cx } from './utils'
 
 export default function App() {
   const { config: visualTheme, setConfig: setVisualTheme } = useVisualTheme()
@@ -40,6 +44,25 @@ export default function App() {
   const [categoryOpen, setCategoryOpen] = useState(false)
   const [installHelpOpen, setInstallHelpOpen] = useState(false)
   const [expiredNotice, setExpiredNotice] = useState(recoveredGameExpired)
+  const [entered, setEntered] = useState(false)
+  const [endGameOpen, setEndGameOpen] = useState(false)
+
+  useEffect(() => {
+    preloadSounds()
+  }, [])
+
+  // Efeito de clique para todos os botões do app.
+  useEffect(() => {
+    function handleClick(event: MouseEvent) {
+      const target = event.target
+      if (!(target instanceof Element)) return
+      if (!target.closest('button')) return
+      playSound('clique')
+    }
+
+    document.addEventListener('click', handleClick)
+    return () => document.removeEventListener('click', handleClick)
+  }, [])
 
   function updateDraft(patch: Partial<SetupDraft>) {
     setDraft((current) => ({ ...current, ...patch }))
@@ -125,7 +148,13 @@ export default function App() {
           />
         )
       case 'FINISHED':
-        return <FinishedScreen game={game} onNewGame={() => dispatch({ type: 'RESET' })} />
+        return (
+          <FinishedScreen
+            game={game}
+            onNewGame={() => dispatch({ type: 'RESET' })}
+            onStartTiebreaker={() => dispatch({ type: 'START_TIEBREAKER' })}
+          />
+        )
       case 'SETUP':
       default:
         return setupScreen
@@ -133,27 +162,40 @@ export default function App() {
   }
 
   const screenKey = screenKeyFor(game)
+  const activeGame = game !== null && game.phase !== 'FINISHED'
 
   return (
-    <div className="app" data-playing={game ? 'true' : 'false'}>
+    <div className="app" data-playing={entered && game ? 'true' : 'false'}>
       <div className="ambient" aria-hidden="true">
         <span className="ambient__orb ambient__orb--one" />
         <span className="ambient__orb ambient__orb--two" />
       </div>
 
       <div className="app-frame">
-        <header className="brand">
-          <img
-            className="brand__logo"
-            src="/brand/logo-wordmark.png"
-            alt="Blefaê"
-            width={800}
-            height={533}
-          />
-          <p className="brand__tagline">Descubra quem está blefando</p>
-        </header>
+        {entered ? (
+          <header className="brand">
+            {activeGame ? (
+              <button
+                type="button"
+                className="brand__end"
+                onClick={() => setEndGameOpen(true)}
+              >
+                <FlagIcon size={13} />
+                Encerrar
+              </button>
+            ) : null}
+            <img
+              className="brand__logo"
+              src="/brand/logo-wordmark.png"
+              alt="Blefaê"
+              width={800}
+              height={533}
+            />
+            <p className="brand__tagline">Descubra quem está blefando</p>
+          </header>
+        ) : null}
 
-        {expiredNotice ? (
+        {entered && expiredNotice ? (
           <div className="notice" role="status">
             <span>A partida anterior expirou após 24 horas.</span>
             <button
@@ -167,20 +209,29 @@ export default function App() {
           </div>
         ) : null}
 
-        <main className="app-card">
-          <div className="screen-wrap" key={screenKey}>
-            {renderScreen()}
+        <main className={cx('app-card', !entered && 'app-card--start')}>
+          <div className="screen-wrap" key={entered ? screenKey : 'start'}>
+            {entered ? (
+              renderScreen()
+            ) : (
+              <StartScreen
+                hasSavedGame={activeGame}
+                onPlay={() => setEntered(true)}
+              />
+            )}
           </div>
         </main>
 
-        {canInstall ? (
-          <button type="button" className="install-link" onClick={handleInstall}>
-            <DownloadIcon size={16} />
-            Instalar o Blefaê
-          </button>
-        ) : (
-          <p className="app-footer">Jogue presencialmente com um único celular.</p>
-        )}
+        {entered ? (
+          canInstall ? (
+            <button type="button" className="install-link" onClick={handleInstall}>
+              <DownloadIcon size={16} />
+              Instalar o Blefaê
+            </button>
+          ) : (
+            <p className="app-footer">Desenvolvido por: @fellpsfr | github.com/ferreiraffj</p>
+          )
+        ) : null}
       </div>
 
       {themeModalOpen ? (
@@ -212,8 +263,18 @@ export default function App() {
         <InstallHelpModal isIos={isIos} onClose={() => setInstallHelpOpen(false)} />
       ) : null}
 
-      {recoveryPending && game ? (
+      {recoveryPending && entered && game ? (
         <RecoveryDialog onContinue={keepRecoveredGame} onDiscard={discardRecoveredGame} />
+      ) : null}
+
+      {endGameOpen ? (
+        <EndGameDialog
+          onClose={() => setEndGameOpen(false)}
+          onConfirm={() => {
+            setEndGameOpen(false)
+            dispatch({ type: 'END_GAME' })
+          }}
+        />
       ) : null}
     </div>
   )

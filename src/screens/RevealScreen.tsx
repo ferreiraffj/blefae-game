@@ -1,26 +1,53 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Button } from '../components/Button'
+import { SuspensePanel } from '../components/SuspensePanel'
 import type { GameState } from '../domain/types'
+import { shouldAnimateSuspense } from '../state/useSuspenseReveal'
 import { cx } from '../utils'
+import { playSound } from '../utils/sound'
 
 interface RevealScreenProps {
   game: GameState
   onReveal: (playerId: string) => void
 }
 
+type RevealStage = 'curtain' | 'suspense' | 'role'
+
 export function RevealScreen({ game, onReveal }: RevealScreenProps) {
   const player = game.players[game.revealIndex]
-  const [revealed, setRevealed] = useState(false)
+  const [stage, setStage] = useState<RevealStage>('curtain')
+  const soundPlayedFor = useRef<string | null>(null)
   const isImpostor = player.id === game.impostorId
+  const isTiebreaker = game.round > game.totalRounds
 
   useEffect(() => {
-    setRevealed(false)
+    setStage('curtain')
   }, [player.id])
+
+  useEffect(() => {
+    if (stage !== 'role' || soundPlayedFor.current === player.id) return
+    soundPlayedFor.current = player.id
+    playSound('confirmacao')
+  }, [stage, player.id])
+
+  useEffect(() => {
+    if (stage !== 'suspense') return
+    if (!shouldAnimateSuspense()) {
+      setStage('role')
+      return
+    }
+
+    const timer = window.setTimeout(() => setStage('role'), 1200)
+    return () => window.clearTimeout(timer)
+  }, [stage])
 
   return (
     <div className="screen screen--center reveal">
       <p className="eyebrow">
-        RODADA {game.round} / {game.totalRounds} · {game.theme}
+        {isTiebreaker
+          ? 'RODADA DE DESEMPATE'
+          : `RODADA ${game.round} / ${game.totalRounds}`}{' '}
+        · {game.theme}
       </p>
 
       <div className="reveal__who">
@@ -29,7 +56,7 @@ export function RevealScreen({ game, onReveal }: RevealScreenProps) {
       </div>
 
       <div className="reveal__stage">
-        {!revealed ? (
+        {stage === 'curtain' ? (
           <div className="curtain panel">
             <span className="curtain__icon" aria-hidden="true">
               🔒
@@ -40,6 +67,12 @@ export function RevealScreen({ game, onReveal }: RevealScreenProps) {
             </p>
             <p className="curtain__hint">Ninguém mais deve olhar para a tela.</p>
           </div>
+        ) : stage === 'suspense' ? (
+          <SuspensePanel
+            title="Revelando seu papel…"
+            hint="Respire fundo e não mostre a tela para ninguém."
+            icon="🎭"
+          />
         ) : (
           <div className={cx('role-card', isImpostor ? 'role-card--impostor' : 'role-card--civil')}>
             {isImpostor ? (
@@ -67,15 +100,19 @@ export function RevealScreen({ game, onReveal }: RevealScreenProps) {
       </div>
 
       <div className="reveal__action">
-        {!revealed ? (
-          <Button block onClick={() => setRevealed(true)}>
+        {stage === 'curtain' ? (
+          <Button block onClick={() => setStage('suspense')}>
             ME CHAMO {player.name.toUpperCase()}
+          </Button>
+        ) : stage === 'suspense' ? (
+          <Button block disabled>
+            PREPARANDO…
           </Button>
         ) : (
           <Button
             block
             onClick={() => {
-              setRevealed(false)
+              setStage('curtain')
               onReveal(player.id)
             }}
           >

@@ -144,6 +144,16 @@ export function ShareIcon(props: IconProps) {
   )
 }
 
+export function FlagIcon(props: IconProps) {
+  return (
+    <Icon {...props}>
+      <path d="M5 21V4" />
+      <path d="M5 4h9l-1 3 1 3H5" />
+      <path d="M14 4h5l-1 3 1 3h-5" />
+    </Icon>
+  )
+}
+
 export function SparklesIcon(props: IconProps) {
   return (
     <Icon {...props}>

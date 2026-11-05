@@ -3,6 +3,7 @@ import {
   calculateRoundPoints,
   evaluateGuess,
   normalize,
+  topScorers,
   verdictLabel,
   voteVerdict,
   weightedSpeakerOrder,
@@ -64,8 +65,32 @@ describe('avaliação do palpite do impostor', () => {
   })
 })
 
-describe('ordem de fala', () => {
-  const players = [player('1', 'A'), player('2', 'B'), player('3', 'Impostor'), player('4', 'D')]
+describe('jogadores no topo da classificação', () => {
+  it('retorna todos os empatados com a maior pontuação', () => {
+    const players = [
+      player('1', 'Alice'),
+      player('2', 'Bob'),
+      player('3', 'Carla'),
+      player('4', 'Dan'),
+    ]
+    players[0].points = 300
+    players[1].points = 300
+    players[2].points = 300
+    players[3].points = 100
+
+    expect(topScorers(players).map((item) => item.id)).toEqual(['1', '2', '3'])
+  })
+
+  it('retorna apenas um jogador quando não há empate', () => {
+    const players = [player('1', 'Alice'), player('2', 'Bob')]
+    players[0].points = 300
+    players[1].points = 100
+
+    expect(topScorers(players).map((item) => item.id)).toEqual(['1'])
+  })
+})
+
+describe('ordem de fala', () => {  const players = [player('1', 'A'), player('2', 'B'), player('3', 'Impostor'), player('4', 'D')]
 
   it('sorteia todos os jogadores sem repetir', () => {
     const order = weightedSpeakerOrder(players, '3')
