@@ -8,9 +8,10 @@ interface PlayerNamesModalProps {
   names: SetupDraft['names']
   onChange: (patch: Partial<SetupDraft>) => void
   onClose: () => void
+  onSave?: () => void
 }
 
-export function PlayerNamesModal({ names, onChange, onClose }: PlayerNamesModalProps) {
+export function PlayerNamesModal({ names, onChange, onClose, onSave }: PlayerNamesModalProps) {
   const validation = validatePlayerNames(names)
   const filledCount = names.filter((name) => name.trim()).length
   const hasDuplicates =
@@ -29,7 +30,7 @@ export function PlayerNamesModal({ names, onChange, onClose }: PlayerNamesModalP
       onClose={onClose}
       className="modal--players"
       footer={
-        <Button block onClick={onClose}>
+        <Button block onClick={onSave ?? onClose} disabled={!validation.ok}>
           CONCLUIR
         </Button>
       }

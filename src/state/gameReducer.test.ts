@@ -66,6 +66,33 @@ describe('rodada de desempate', () => {
     expect(tiebreak?.players).toEqual(finished.players)
   })
 
+  describe('edição de jogadores entre rodadas', () => {
+    it('preserva pontos dos jogadores mantidos e inicia novos jogadores com zero', () => {
+      const transition: GameState = { ...baseGame, phase: 'ROUND_TRANSITION' }
+      const updated = gameReducer(transition, {
+        type: 'UPDATE_PLAYERS',
+        names: ['Alice', 'Carla', 'Davi'],
+      })
+
+      expect(updated?.players).toEqual([
+        { id: '1', name: 'Alice', points: 120 },
+        { id: '3', name: 'Carla', points: 40 },
+        expect.objectContaining({ name: 'Davi', points: 0 }),
+      ])
+    })
+
+    it('ignora edição inválida ou fora da transição', () => {
+      expect(
+        gameReducer(baseGame, { type: 'UPDATE_PLAYERS', names: ['Alice', 'Bob'] }),
+      ).toBe(baseGame)
+
+      const transition: GameState = { ...baseGame, phase: 'ROUND_TRANSITION' }
+      expect(
+        gameReducer(transition, { type: 'UPDATE_PLAYERS', names: ['Alice', 'Alice', 'Carla'] }),
+      ).toBe(transition)
+    })
+  })
+
   it('não oferece desempate quando o empate é apenas entre dois jogadores', () => {
     const finished = finishedGame({
       players: [

@@ -930,6 +930,49 @@ img {
   padding-right: 3px;
 }
 
+.speaker-order {
+  padding: 13px 15px;
+}
+
+.speaker-order__list {
+  display: grid;
+  gap: 7px;
+  margin: 10px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.speaker-order__item {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  min-height: 34px;
+  color: var(--text-soft);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.speaker-order__position {
+  display: grid;
+  flex: 0 0 auto;
+  place-items: center;
+  width: 25px;
+  height: 25px;
+  border: 1px solid rgba(var(--accent-rgb), 0.35);
+  border-radius: 50%;
+  color: var(--accent);
+  font-size: 11px;
+}
+
+.speaker-order__first {
+  margin-left: auto;
+  color: var(--accent);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
 .player-field {
   display: flex;
   align-items: center;

@@ -15,8 +15,26 @@ export function SpeakingScreen({ game, onReady }: SpeakingScreenProps) {
       <p className="eyebrow">HORA DAS DICAS</p>
 
       <div className="speaker">
-        <h2 className="screen-title">Quem começa falando?</h2>
+        <h2 className="screen-title">Ordem das dicas</h2>
         <p className="speaker__name">{firstSpeaker?.name ?? 'Primeiro jogador'}</p>
+      </div>
+
+      <div className="panel speaker-order">
+        <p className="rules__title">Ordem de fala:</p>
+        <ol className="speaker-order__list">
+          {game.speakerOrder.map((playerId, index) => {
+            const player = game.players.find((item) => item.id === playerId)
+            if (!player) return null
+
+            return (
+              <li key={player.id} className="speaker-order__item">
+                <span className="speaker-order__position">{index + 1}</span>
+                <span>{player.name}</span>
+                {index === 0 ? <span className="speaker-order__first">começa</span> : null}
+              </li>
+            )
+          })}
+        </ol>
       </div>
 
       <div className="panel rules">

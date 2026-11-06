@@ -34,8 +34,9 @@ Fluxo de uma partida:
 6. Revelar o resultado da votação.
 7. Permitir o palpite final do impostor.
 8. Exibir e contabilizar os pontos.
-9. Iniciar a próxima rodada ou finalizar a partida.
-10. Se houver empate entre pelo menos três jogadores no topo, oferecer uma única rodada de
+9. Na transição entre rodadas, permitir adicionar, remover ou renomear jogadores.
+10. Iniciar a próxima rodada ou finalizar a partida.
+11. Se houver empate entre pelo menos três jogadores no topo, oferecer uma única rodada de
     desempate.
 
 Pontuação padrão para cada civil que votou no impostor:
@@ -155,6 +156,8 @@ As ações e transições estão em [`src/state/gameReducer.ts`](src/state/gameR
 - `SUBMIT_GUESS`: avalia o palpite e pode abrir confirmação dos civis;
 - `CONFIRM_GUESS`: aceita ou rejeita um palpite provável por erro de digitação;
 - `ADVANCE_FROM_SCORE`: soma os pontos e escolhe final ou próxima rodada;
+- `UPDATE_PLAYERS`: edita os jogadores durante a transição, preservando pontos dos mantidos e
+  iniciando novos jogadores com zero;
 - `START_NEXT_ROUND`: sorteia nova palavra e novo impostor;
 - `START_TIEBREAKER`: cria a rodada extra permitida após empate no topo;
 - `END_GAME`: encerra a partida sem contabilizar a rodada em andamento;

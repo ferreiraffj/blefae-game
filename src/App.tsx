@@ -152,9 +152,11 @@ export default function App() {
       case 'ROUND_TRANSITION':
         return (
           <RoundTransitionScreen
+            players={game.players}
             currentRound={game.round}
             totalRounds={game.totalRounds}
             currentTheme={game.theme}
+            onUpdatePlayers={(names) => dispatch({ type: 'UPDATE_PLAYERS', names })}
             onStartNextRound={(theme) => dispatch({ type: 'START_NEXT_ROUND', theme })}
           />
         )

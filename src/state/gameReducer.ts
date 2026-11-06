@@ -3,6 +3,7 @@ import {
   createId,
   evaluateGuess,
   topScorers,
+  validatePlayerNames,
   weightedSpeakerOrder,
 } from '../domain/engine'
 import { getMultipleChoiceOptions, randomWord } from '../domain/words'
@@ -24,6 +25,7 @@ export type GameAction =
   | { type: 'SUBMIT_GUESS'; guess: string }
   | { type: 'CONFIRM_GUESS'; accepted: boolean }
   | { type: 'ADVANCE_FROM_SCORE' }
+  | { type: 'UPDATE_PLAYERS'; names: string[] }
   | { type: 'START_NEXT_ROUND'; theme: string }
   | { type: 'START_TIEBREAKER' }
   | { type: 'END_GAME' }
@@ -142,6 +144,20 @@ export function gameReducer(game: GameState | null, action: GameAction): GameSta
         lastRoundPoints: earned,
         phase: isLastRound ? 'FINISHED' : 'ROUND_TRANSITION',
       }
+    }
+
+    case 'UPDATE_PLAYERS': {
+      if (!game || game.phase !== 'ROUND_TRANSITION') return game
+
+      const validation = validatePlayerNames(action.names)
+      if (!validation.ok) return game
+
+      const previousByName = new Map(game.players.map((player) => [player.name, player]))
+      const players = validation.names.map(
+        (name) => previousByName.get(name) ?? { id: createId(), name, points: 0 },
+      )
+
+      return { ...game, players }
     }
 
     case 'START_NEXT_ROUND': {
