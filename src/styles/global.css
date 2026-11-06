@@ -87,6 +87,43 @@ html[data-theme='light'] {
   color-scheme: light;
 }
 
+/* Seasonal layers are intentionally independent from the user's visual theme. */
+html[data-season='halloween'] {
+  --seasonal-orange: #ff8a24;
+  --seasonal-purple: #8d4de8;
+  --seasonal-orange-rgb: 255, 138, 36;
+  --accent: var(--seasonal-orange);
+  --accent-rgb: var(--seasonal-orange-rgb);
+  --on-accent: #1b1018;
+}
+
+html[data-season='halloween'][data-theme='dark'] {
+  --bg: #100b16;
+  --bg-2: #211020;
+  --surface: rgba(31, 19, 34, 0.92);
+  --surface-solid: #211526;
+  --surface-2: #2a1a31;
+  --surface-3: #3a2240;
+  --outline: rgba(255, 138, 36, 0.2);
+  --outline-strong: rgba(255, 138, 36, 0.38);
+  --panel-shine: rgba(255, 170, 72, 0.08);
+}
+
+html[data-season='halloween'][data-theme='light'] {
+  --bg: #fff3e8;
+  --bg-2: #f5e1f4;
+  --surface: rgba(255, 249, 242, 0.92);
+  --surface-solid: #fffaf5;
+  --surface-2: #fff0df;
+  --surface-3: #f5def1;
+  --outline: rgba(112, 55, 142, 0.16);
+  --outline-strong: rgba(112, 55, 142, 0.3);
+  --text: #2a1832;
+  --text-soft: #53345d;
+  --muted: #7d6086;
+  --panel-shine: rgba(255, 255, 255, 0.78);
+}
+
 /* ==========================================================================
    Base
    ========================================================================== */
@@ -186,6 +223,57 @@ img {
   left: -110px;
   background: rgba(139, 92, 246, 0.45);
   animation: orb-float 18s ease-in-out infinite reverse;
+}
+
+.seasonal-effects {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.seasonal-effects__bat,
+.seasonal-effects__pumpkin {
+  position: absolute;
+  user-select: none;
+  filter: drop-shadow(0 8px 14px rgba(0, 0, 0, 0.22));
+}
+
+.seasonal-effects__bat {
+  font-size: 24px;
+  opacity: 0.72;
+  animation: seasonal-float 5s ease-in-out infinite;
+}
+
+.seasonal-effects__bat--one {
+  top: 8%;
+  left: 7%;
+}
+
+.seasonal-effects__bat--two {
+  top: 19%;
+  right: 7%;
+  font-size: 18px;
+  animation-delay: -2.4s;
+}
+
+.seasonal-effects__pumpkin {
+  right: max(12px, calc(50% - 280px));
+  bottom: calc(12px + var(--safe-bottom));
+  font-size: 25px;
+  opacity: 0.85;
+}
+
+html[data-season='halloween'] body {
+  background:
+    radial-gradient(900px 620px at 50% -18%, rgba(255, 138, 36, 0.2), transparent 62%),
+    radial-gradient(720px 560px at 105% 105%, rgba(141, 77, 232, 0.2), transparent 68%),
+    linear-gradient(180deg, var(--bg) 0%, var(--bg-2) 100%);
+}
+
+html[data-season='halloween'] .brand__logo {
+  filter: drop-shadow(0 10px 26px rgba(255, 138, 36, 0.38));
 }
 
 .app-frame {
@@ -2191,6 +2279,166 @@ html[data-theme='light'] .modal__footer {
   max-width: 430px;
 }
 
+.modal--about {
+  max-width: 430px;
+}
+
+.about__brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.about__logo {
+  width: 58px;
+  height: 58px;
+  border-radius: 16px;
+  box-shadow: 0 10px 24px rgba(var(--accent-rgb), 0.22);
+}
+
+.about__brand-copy {
+  min-width: 0;
+}
+
+.about__name,
+.about__version,
+.about__install-title,
+.about__install-text {
+  margin: 0;
+}
+
+.about__name {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.about__version,
+.about__label,
+.about__install-text,
+.about__news-date {
+  color: var(--muted);
+}
+
+.about__version {
+  margin-top: 2px;
+  font-size: 11px;
+}
+
+.about__list {
+  display: grid;
+  gap: 9px;
+  margin: 0;
+}
+
+.about__row {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  padding-bottom: 9px;
+  border-bottom: 1px solid var(--outline);
+}
+
+.about__label,
+.about__value {
+  margin: 0;
+  font-size: 12px;
+}
+
+.about__label {
+  font-weight: 700;
+}
+
+.about__value {
+  color: var(--text-soft);
+  font-weight: 700;
+  text-align: right;
+}
+
+.about__link {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.about__link:hover,
+.about__link:focus-visible {
+  text-decoration: underline;
+}
+
+.about__install {
+  display: grid;
+  gap: 7px;
+  padding: 14px;
+  border: 1px solid rgba(var(--accent-rgb), 0.2);
+  border-radius: var(--radius-sm);
+  background: rgba(var(--accent-rgb), 0.06);
+}
+
+.about__install-title {
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.about__install-text {
+  font-size: 11.5px;
+  line-height: 1.45;
+}
+
+.about__installed {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  color: var(--accent);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.about__news {
+  display: grid;
+  gap: 18px;
+}
+
+.about__news-release {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--outline);
+}
+
+.about__news-version {
+  color: var(--accent);
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.about__news-date {
+  font-size: 11px;
+}
+
+.about__news-section {
+  display: grid;
+  gap: 8px;
+}
+
+.about__news-section h3 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 16px;
+}
+
+.about__news-section ul {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding-left: 18px;
+  color: var(--text-soft);
+  font-size: 12px;
+  line-height: 1.45;
+}
+
 .modal-text {
   margin: 0;
   color: var(--text-soft);
@@ -2679,6 +2927,16 @@ html[data-theme='light'] .modal__footer {
   }
 }
 
+@keyframes seasonal-float {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-5deg);
+  }
+  50% {
+    transform: translateY(8px) rotate(5deg);
+  }
+}
+
 @keyframes trophy-glow {
   0%,
   100% {
@@ -2714,6 +2972,10 @@ html[data-animations='off'] *::before,
 html[data-animations='off'] *::after {
   animation: none !important;
   transition: none !important;
+}
+
+html[data-animations='off'] .seasonal-effects__bat {
+  animation: none;
 }
 
 /* ==========================================================================

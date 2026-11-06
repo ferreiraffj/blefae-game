@@ -25,11 +25,13 @@ import { useGameState } from './state/useGameState'
 import { useInstallPrompt } from './state/useInstallPrompt'
 import { useSetupDraft } from './state/useSetupDraft'
 import { useVisualTheme } from './state/useVisualTheme'
+import { useSeasonalTheme } from './state/useSeasonalTheme'
 import { preloadSounds, playSound } from './utils/sound'
 import { cx } from './utils'
 
 export default function App() {
   const { config: visualTheme, setConfig: setVisualTheme } = useVisualTheme()
+  const seasonalTheme = useSeasonalTheme()
   const [draft, setDraft] = useSetupDraft()
   const {
     game,
@@ -183,6 +185,13 @@ export default function App() {
         <span className="ambient__orb ambient__orb--one" />
         <span className="ambient__orb ambient__orb--two" />
       </div>
+      {seasonalTheme?.key === 'halloween' ? (
+        <div className="seasonal-effects" aria-hidden="true">
+          <span className="seasonal-effects__bat seasonal-effects__bat--one">🦇</span>
+          <span className="seasonal-effects__bat seasonal-effects__bat--two">🦇</span>
+          <span className="seasonal-effects__pumpkin">🎃</span>
+        </div>
+      ) : null}
 
       <div className="app-frame">
         {entered ? (

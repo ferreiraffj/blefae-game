@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { APP_CREATOR, APP_GITHUB_URL, APP_GITHUB_USER, APP_VERSION } from '../appInfo'
 import { Button } from './Button'
 import { CheckIcon, DownloadIcon, ShareIcon } from './Icons'
@@ -11,81 +12,129 @@ interface AboutModalProps {
 }
 
 export function AboutModal({ installed, isIos, onInstall, onClose }: AboutModalProps) {
+  const [page, setPage] = useState<'about' | 'news'>('about')
+
   return (
     <Modal
-      title="Sobre"
-      subtitle="Blefaê — descubra quem está blefando."
+      title={page === 'about' ? 'Sobre' : 'Novidades'}
+      subtitle={
+        page === 'about'
+          ? 'Blefaê — descubra quem está blefando.'
+          : `Atualizações da versão ${APP_VERSION}`
+      }
       onClose={onClose}
       className="modal--about"
       footer={
-        <Button block onClick={onClose}>
-          FECHAR
-        </Button>
+        <div className="modal__actions">
+          {page === 'news' ? (
+            <Button variant="ghost" onClick={() => setPage('about')}>
+              VOLTAR
+            </Button>
+          ) : null}
+          <Button block={page === 'about'} onClick={onClose}>
+            FECHAR
+          </Button>
+        </div>
       }
     >
-      <div className="about__brand">
-        <img
-          className="about__logo"
-          src="/brand/logo-icon.png"
-          alt="Blefaê"
-          width={58}
-          height={58}
-        />
-        <div className="about__brand-copy">
-          <p className="about__name">Blefaê</p>
-          <p className="about__version">Versão {APP_VERSION}</p>
-        </div>
-      </div>
+      {page === 'about' ? (
+        <>
+          <div className="about__brand">
+            <img
+              className="about__logo"
+              src="/brand/logo-icon.png"
+              alt="Blefaê"
+              width={58}
+              height={58}
+            />
+            <div className="about__brand-copy">
+              <p className="about__name">Blefaê</p>
+              <p className="about__version">Versão {APP_VERSION}</p>
+            </div>
+          </div>
 
-      <dl className="about__list">
-        <div className="about__row">
-          <dt className="about__label">Criador do app</dt>
-          <dd className="about__value">{APP_CREATOR}</dd>
-        </div>
-        <div className="about__row">
-          <dt className="about__label">GitHub</dt>
-          <dd className="about__value">
-            <a
-              className="about__link"
-              href={APP_GITHUB_URL}
-              target="_blank"
-              rel="noreferrer"
-            >
-              {APP_GITHUB_USER}
-            </a>
-          </dd>
-        </div>
-        <div className="about__row">
-          <dt className="about__label">Versão atual</dt>
-          <dd className="about__value">{APP_VERSION}</dd>
-        </div>
-      </dl>
+          <dl className="about__list">
+            <div className="about__row">
+              <dt className="about__label">Criador do app</dt>
+              <dd className="about__value">{APP_CREATOR}</dd>
+            </div>
+            <div className="about__row">
+              <dt className="about__label">GitHub</dt>
+              <dd className="about__value">
+                <a
+                  className="about__link"
+                  href={APP_GITHUB_URL}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  {APP_GITHUB_USER}
+                </a>
+              </dd>
+            </div>
+            <div className="about__row">
+              <dt className="about__label">Versão atual</dt>
+              <dd className="about__value">{APP_VERSION}</dd>
+            </div>
+          </dl>
 
-      <div className="about__install">
-        <p className="about__install-title">Instalar o app</p>
-        <p className="about__install-text">
-          {installed
-            ? 'O Blefaê já está instalado neste dispositivo.'
-            : isIos
-              ? 'No iPhone ou iPad, adicione à Tela de Início pelo menu Compartilhar do Safari.'
-              : 'Instale para abrir em tela cheia e jogar até sem internet.'}
-        </p>
+          <div className="about__install">
+            <p className="about__install-title">Instalar o app</p>
+            <p className="about__install-text">
+              {installed
+                ? 'O Blefaê já está instalado neste dispositivo.'
+                : isIos
+                  ? 'No iPhone ou iPad, adicione à Tela de Início pelo menu Compartilhar do Safari.'
+                  : 'Instale para abrir em tela cheia e jogar até sem internet.'}
+            </p>
 
-        {installed ? (
-          <p className="about__installed">
-            <CheckIcon size={16} />
-            Instalado
-          </p>
-        ) : (
-          <Button
-            block
-            icon={isIos ? <ShareIcon size={18} /> : <DownloadIcon size={18} />}
-            onClick={onInstall}
-          >
-            {isIos ? 'COMO INSTALAR' : 'INSTALAR O APP'}
+            {installed ? (
+              <p className="about__installed">
+                <CheckIcon size={16} />
+                Instalado
+              </p>
+            ) : (
+              <Button
+                block
+                icon={isIos ? <ShareIcon size={18} /> : <DownloadIcon size={18} />}
+                onClick={onInstall}
+              >
+                {isIos ? 'COMO INSTALAR' : 'INSTALAR O APP'}
+              </Button>
+            )}
+          </div>
+
+          <Button variant="ghost" block onClick={() => setPage('news')}>
+            VER NOVIDADES
           </Button>
-        )}
-      </div>
+        </>
+      ) : (
+        <div className="about__news">
+          <div className="about__news-release">
+            <span className="about__news-version">1.0.7</span>
+            <span className="about__news-date">6 de novembro de 2026</span>
+          </div>
+
+          <section className="about__news-section">
+            <h3>Novidades</h3>
+            <ul>
+              <li>Edição de jogadores disponível entre as rodadas.</li>
+              <li>A ordem completa de fala agora aparece antes da rodada de dicas.</li>
+              <li>O impostor tem menor chance de ser sorteado como primeiro jogador.</li>
+              <li>Palpites parciais em palavras compostas passam pela validação dos civis.</li>
+            </ul>
+          </section>
+
+          <section className="about__news-section">
+            <h3>Correções</h3>
+            <ul>
+              <li>Corrigida a rejeição automática de palpites como “fone” para “Fone de ouvido”.</li>
+              <li>Corrigida a manutenção da pontuação ao editar jogadores entre rodadas.</li>
+              <li>Corrigida a validação de erros de digitação em palavras com múltiplos termos.</li>
+              <li>Corrigida a atualização visual do fluxo de configuração em telas pequenas.</li>
+            </ul>
+          </section>
+        </div>
+      )}
     </Modal>
   )
 }

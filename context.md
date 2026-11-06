@@ -261,6 +261,7 @@ Componentes em [`src/components/`](src/components/):
 - cadastro de jogadores em modal, com apenas o resumo e o botão de edição na configuração;
 - controles de tema, partida e sobre na barra superior da configuração;
 - configuração de categoria, pontuação e tema visual;
+- modal Sobre com informações do app, instalação da PWA e página de novidades da versão atual;
 - recuperação de partida;
 - encerramento antecipado;
 - ajuda de instalação;
@@ -274,6 +275,8 @@ Características de UX já implementadas:
 - nove cores de destaque;
 - raio de cards configurável entre 8 e 28 px;
 - opção de desligar animações;
+- camada sazonal independente, atualmente com tema Halloween automático de 1º de outubro a 7 de
+  novembro;
 - contraste do texto sobre a cor de destaque calculado em runtime;
 - foco visível e atributos ARIA em controles relevantes;
 - sons de clique, confirmação, acerto, erro, suspense e vencedor.
