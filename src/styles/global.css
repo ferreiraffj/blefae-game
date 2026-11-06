@@ -550,6 +550,32 @@ html[data-season='halloween'] .brand__logo {
   padding: 16px;
 }
 
+.speaking-screen {
+  gap: 0;
+  padding: 0;
+}
+
+.speaking-screen__content {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: 13px;
+  min-height: 0;
+  padding: 18px 18px 24px;
+}
+
+.speaking-screen__action {
+  position: relative;
+  z-index: 2;
+  flex: 0 0 auto;
+  padding: 12px 18px calc(14px + var(--safe-bottom));
+  border-top: 1px solid var(--outline);
+  background:
+    linear-gradient(180deg, transparent, var(--surface-solid) 30%),
+    var(--surface-solid);
+  box-shadow: 0 -12px 24px rgba(0, 0, 0, 0.14);
+}
+
 .setup-section {
   padding: 13px 14px;
   border: 1px solid var(--outline);
@@ -3006,6 +3032,21 @@ html[data-animations='off'] .seasonal-effects__bat {
     gap: 8px;
   }
 
+  .screen--between {
+    justify-content: flex-start;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+
+  .speaking-screen__content {
+    padding-top: 14px;
+    padding-bottom: 18px;
+  }
+
+  .speaking-screen__action {
+    padding-top: 9px;
+  }
+
   .btn {
     min-height: 48px;
   }
@@ -3031,6 +3072,52 @@ html[data-animations='off'] .seasonal-effects__bat {
 
   .btn {
     font-size: 13.5px;
+  }
+}
+
+@media (orientation: landscape) and (max-height: 600px) {
+  .app-frame {
+    max-width: 900px;
+    gap: 6px;
+    padding-top: calc(5px + var(--safe-top));
+    padding-bottom: calc(5px + var(--safe-bottom));
+  }
+
+  .brand__logo {
+    height: 36px;
+  }
+
+  .brand__tagline {
+    display: none;
+  }
+
+  .app-card {
+    border-radius: var(--radius);
+  }
+
+  .screen {
+    padding: 12px 18px;
+  }
+
+  .screen--center {
+    justify-content: flex-start;
+    overflow-y: auto;
+  }
+
+  .speaking-screen {
+    padding: 0;
+  }
+
+  .speaking-screen__content {
+    padding: 12px 24px 18px;
+  }
+
+  .speaking-screen__action {
+    padding: 8px 24px calc(8px + var(--safe-bottom));
+  }
+
+  .speaker__name {
+    font-size: clamp(30px, 8vw, 42px);
   }
 }
 

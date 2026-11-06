@@ -270,6 +270,8 @@ Componentes em [`src/components/`](src/components/):
 Características de UX já implementadas:
 
 - layout responsivo para uso predominantemente em portrait;
+- telas com conteúdo variável usam áreas de rolagem próprias e ações fixadas quando necessário,
+  incluindo a lista de ordem de fala para partidas com muitos jogadores e suporte a landscape;
 - suporte a safe areas de notch e barra de gestos;
 - tema claro, escuro ou automático;
 - nove cores de destaque;
