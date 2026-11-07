@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react'
 import { Button } from '../components/Button'
+import { Badge, Card, PlayerChip } from '../components/Primitives'
 import { SuspensePanel } from '../components/SuspensePanel'
 import { tallyVotes, verdictLabel, voteVerdict } from '../domain/engine'
 import type { GameState } from '../domain/types'
@@ -30,6 +31,12 @@ export function ResultScreen({ game, onContinue }: ResultScreenProps) {
 
       {revealed ? (
         <div className="result">
+          <Badge tone="danger">REVELAÇÃO</Badge>
+          <img
+            className="result__impostor-image"
+            src="/impostor.png"
+            alt="Ilustração do impostor revelado"
+          />
           <p className="muted">O impostor desta rodada era…</p>
           <p className="result__name result__name--revealed">
             {impostor?.name ?? 'Desconhecido'}
@@ -45,7 +52,7 @@ export function ResultScreen({ game, onContinue }: ResultScreenProps) {
       )}
 
       {revealed ? (
-        <div className="panel tally">
+        <Card className="tally">
           <p className="tally__title">Votação final:</p>
           <ul className="tally__list">
             {game.players.map((player) => (
@@ -55,15 +62,14 @@ export function ResultScreen({ game, onContinue }: ResultScreenProps) {
                 }
                 key={player.id}
               >
-                <span className="tally__name">
+                <PlayerChip animalId={player.animalId} active={player.id === game.impostorId}>
                   {player.name}
-                  {player.id === game.impostorId ? ' 🕵️' : ''}
-                </span>
+                </PlayerChip>
                 <span className="tally__votes">{tally[player.id] ?? 0} voto(s)</span>
               </li>
             ))}
           </ul>
-        </div>
+        </Card>
       ) : null}
 
       <Button block onClick={onContinue} disabled={!revealed}>

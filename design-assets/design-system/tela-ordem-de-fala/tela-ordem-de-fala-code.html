@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><meta content="mobile_stack" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@600;700&amp;family=Plus+Jakarta+Sans:wght@700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{width:100vw;margin:0;padding:0;}body{overscroll-behavior:none;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+          "surface-container": "#efeeea",
+          "surface-container-highest": "#e4e2de",
+          "primary-fixed-dim": "#d2bbff",
+          "on-error": "#ffffff",
+          "on-tertiary-fixed": "#410007",
+          "outline-variant": "#ccc3d7",
+          "on-surface": "#1b1c1a",
+          "surface-variant": "#e4e2de",
+          "inverse-primary": "#d2bbff",
+          "inverse-on-surface": "#f2f0ed",
+          "on-secondary-fixed": "#211b00",
+          "on-error-container": "#93000a",
+          "on-primary-container": "#d9c5ff",
+          "surface-container-high": "#eae8e4",
+          "tertiary-fixed-dim": "#ffb3b0",
+          "on-secondary-container": "#726200",
+          "tertiary-container": "#ac1b2a",
+          "surface": "#fbf9f5",
+          "on-primary-fixed": "#25005a",
+          "on-tertiary-container": "#ffbfbc",
+          "outline": "#7b7486",
+          "primary": "#5200b7",
+          "on-primary": "#ffffff",
+          "on-primary-fixed-variant": "#5a00c6",
+          "surface-dim": "#dbdad6",
+          "on-surface-variant": "#4a4455",
+          "on-background": "#1b1c1a",
+          "surface-container-lowest": "#ffffff",
+          "error-container": "#ffdad6",
+          "surface-tint": "#7332e0",
+          "secondary-fixed": "#fce264",
+          "primary-fixed": "#eaddff",
+          "on-secondary": "#ffffff",
+          "background": "#fbf9f5",
+          "error": "#ba1a1a",
+          "tertiary-fixed": "#ffdad8",
+          "secondary-container": "#f9e061",
+          "on-tertiary-fixed-variant": "#92001b",
+          "surface-container-low": "#f5f3ef",
+          "on-secondary-fixed-variant": "#524600",
+          "on-tertiary": "#ffffff",
+          "secondary-fixed-dim": "#dfc64b",
+          "inverse-surface": "#30312e",
+          "surface-bright": "#fbf9f5",
+          "secondary": "#6d5e00",
+          "primary-container": "#6c28d9",
+          "tertiary": "#870018"
+        },
+        "borderRadius": {
+          "DEFAULT": "1rem",
+          "lg": "2rem",
+          "xl": "3rem",
+          "full": "9999px"
+        },
+        "spacing": {
+          "margin-mobile": "1rem",
+          "space-sm": "0.5rem",
+          "space-xs": "0.25rem",
+          "margin-tablet": "2rem",
+          "gutter": "1rem",
+          "space-xl": "2.25rem",
+          "gutter-sm": "0.75rem",
+          "space-md": "1rem",
+          "margin": "1.25rem",
+          "space-lg": "1.5rem"
+        },
+        "fontFamily": {
+          "body-sm": ["Nunito Sans"],
+          "display-hero-mobile": ["Plus Jakarta Sans"],
+          "headline-md": ["Plus Jakarta Sans"],
+          "label-sm": ["Plus Jakarta Sans"],
+          "display-hero": ["Plus Jakarta Sans"],
+          "body-lg": ["Nunito Sans"],
+          "label-lg": ["Plus Jakarta Sans"],
+          "label-md": ["Plus Jakarta Sans"],
+          "headline-lg": ["Plus Jakarta Sans"],
+          "body-md": ["Nunito Sans"],
+          "headline-sm": ["Plus Jakarta Sans"]
+        },
+        "fontSize": {
+          "body-sm": ["13px", {"lineHeight": "18px", "fontWeight": "600"}],
+          "display-hero-mobile": ["32px", {"lineHeight": "38px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+          "headline-md": ["22px", {"lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "800"}],
+          "label-sm": ["11px", {"lineHeight": "14px", "letterSpacing": "0.04em", "fontWeight": "700"}],
+          "display-hero": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.03em", "fontWeight": "800"}],
+          "body-lg": ["17px", {"lineHeight": "24px", "fontWeight": "600"}],
+          "label-lg": ["16px", {"lineHeight": "20px", "letterSpacing": "0.02em", "fontWeight": "800"}],
+          "label-md": ["13px", {"lineHeight": "16px", "letterSpacing": "0.03em", "fontWeight": "800"}],
+          "headline-lg": ["28px", {"lineHeight": "34px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+          "body-md": ["15px", {"lineHeight": "22px", "fontWeight": "600"}],
+          "headline-sm": ["18px", {"lineHeight": "24px", "fontWeight": "700"}]
+        }
+      }
+    }
+  }</script><style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head><body class="bg-surface font-body-md text-body-md text-on-surface flex flex-col min-h-screen"><header class="fixed top-0 w-full z-50 bg-surface/85 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] pt-safe"><div class="h-16 px-margin flex items-center justify-between gap-space-sm"><div class="flex items-center gap-space-sm"><button class="w-11 h-11 rounded-full flex items-center justify-center text-on-surface hover:bg-surface-container active:scale-95 transition-all" onclick="history.back()"><span class="material-symbols-outlined text-[24px]">arrow_back</span></button><img alt="logo-wordmark.png" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/ALJJyrB_x36732vhnUZYqKUj9XRAVaLm0grMdaPKZyaXGXZlYCohf4UxQ7D0c_b2UqXxUUMrt5JzBEgDS1iO9BXRSEy4mwL_yawaatX5gEeJwMuiUl5FSl0nNdxdv0Ere4VwFAe7LYiWAI0UlgrbHMCxLz6Y6W3b88yFFlVY9roTfNoMxE9Ik4l-HX4CDlHx7oAdOOAEbiKynlRjCdeNLW64xgUw-aq9Jr-hA-SDSMb13-RpA4r1K7uWM09lUyrR"/><h1 class="font-headline-sm text-headline-sm text-on-surface">Active Match</h1></div><div class="flex items-center gap-space-xs"><div class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-surface-container-high text-on-surface-variant"><span class="w-2 h-2 rounded-full bg-primary"></span><span class="font-label-sm text-label-sm uppercase">Live</span></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="flex flex-col relative w-full pt-16 bg-surface min-h-screen"><div class="flex flex-col w-full pb-8 px-margin gap-space-md">
+<!-- Sub-bar: Round info & Category Pill -->
+<div class="flex items-center justify-between mt-2">
+<div class="flex items-center gap-space-xs">
+<span class="px-3 py-1 rounded-full bg-primary/10 text-primary font-label-md text-label-md uppercase tracking-wider">
+        Rodada 1 de 2
+      </span>
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-secondary-container text-on-secondary-container font-label-md text-label-md shadow-sm">
+<span class="material-symbols-outlined text-[15px]">inventory_2</span>
+        Objetos Cotidianos
+      </span>
+</div>
+<button class="w-9 h-9 rounded-full bg-surface-container flex items-center justify-center text-on-surface hover:bg-surface-container-highest active:scale-95 transition-all shadow-sm" id="btn-regras-toggle" title="Ajuda" type="button">
+<span class="material-symbols-outlined text-[20px]">help</span>
+</button>
+</div>
+<!-- Hero Card: Active Speaker Turn -->
+<section class="relative w-full rounded-lg bg-surface-container-lowest p-space-md shadow-md overflow-hidden flex flex-col gap-space-sm">
+<!-- Decorative tactile corner badge -->
+<div class="absolute -right-6 -top-6 w-24 h-24 rounded-full bg-secondary-fixed opacity-40 pointer-events-none"></div>
+<div class="flex items-center justify-between relative z-10">
+<div class="flex items-center gap-2">
+<span class="relative flex h-3 w-3">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+<span class="relative inline-flex rounded-full h-3 w-3 bg-primary"></span>
+</span>
+<span class="font-label-md text-label-md text-primary uppercase tracking-wide">Vez de Falar</span>
+</div>
+<!-- Live timer badge with pause toggle -->
+<div class="flex items-center gap-1.5 bg-surface-container px-3 py-1 rounded-full text-on-surface">
+<span class="material-symbols-outlined text-[17px] text-primary animate-pulse">timer</span>
+<span class="font-headline-sm text-headline-sm tracking-tight text-primary" id="countdown-text">38s</span>
+<button class="ml-1 w-6 h-6 rounded-full bg-surface flex items-center justify-center text-on-surface-variant hover:text-on-surface active:scale-90 transition-transform" id="btn-timer-toggle" type="button">
+<span class="material-symbols-outlined text-[14px]" id="timer-icon">pause</span>
+</button>
+</div>
+</div>
+<!-- Active Speaker Spotlight -->
+<div class="flex items-center gap-space-md mt-1 relative z-10">
+<div class="relative flex-shrink-0">
+<!-- Tactile frame avatar -->
+<div class="w-16 h-16 rounded-full bg-primary-fixed flex items-center justify-center shadow-inner overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Cute vibrant 3D stylized character portrait avatar of a cheerful young boy with headphones and a purple baseball cap, playful vector arcade mobile board game style, warm studio lighting on cream background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA_FkcwmCjQl8P0eARoD0paaOonNkB2SRRMlwKYqZC-2IT428WJlXVwS6BwpLuE-llJcRe6glRvUT-1QIeCEYm47cR52TbdGWzeVBunbclKInBHgNAIYhE4ZtZU410_86nBqmy26FRZc7oxthhd8bIDEYyiXZxPZ2_7Bsi0S4Fpfp6WrjD1EdRIc0Prh9YO4wdZ0C4qDIiu1D54wBiAWshmCoC92KblWAJiBBpfmx9o"/>
+</div>
+<!-- Mic icon floating sticker -->
+<div class="absolute -bottom-1 -right-1 w-7 h-7 rounded-full bg-primary text-on-primary flex items-center justify-center shadow-md">
+<span class="material-symbols-outlined text-[16px]">mic</span>
+</div>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-2">
+<h2 class="font-headline-md text-headline-md text-on-surface truncate">Lucas</h2>
+<span class="px-2 py-0.5 rounded-full bg-primary-fixed-dim text-on-primary-fixed font-label-sm text-label-sm">Você</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant flex items-center gap-1">
+<span class="inline-block w-2 h-2 rounded-full bg-primary"></span>
+          Falando agora em voz alta
+        </p>
+</div>
+</div>
+<!-- Speech Prompt Guidance Card -->
+<div class="mt-2 p-space-sm bg-surface-container-low rounded-DEFAULT flex items-start gap-space-xs relative z-10">
+<span class="material-symbols-outlined text-primary text-[20px] mt-0.5 flex-shrink-0">tips_and_updates</span>
+<p class="font-body-sm text-body-sm text-on-surface">
+<strong class="font-label-md text-primary">Missão de fala:</strong> Fale <span class="underline decoration-secondary decoration-2 font-bold">1 pista curta</span> sobre o objeto. Não seja óbvio demais para não entregar a palavra ao impostor!
+      </p>
+</div>
+<!-- Progress indicator bar -->
+<div class="w-full h-2 rounded-full bg-surface-container overflow-hidden mt-1">
+<div class="h-full bg-primary rounded-full transition-all duration-1000 ease-linear" id="turn-progress-bar" style="width: 65%;"></div>
+</div>
+</section>
+<!-- Player Turn List Section -->
+<section class="flex flex-col gap-space-sm">
+<div class="flex items-center justify-between px-1">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-primary text-[20px]">format_list_numbered</span>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Ordem da Rodada</h3>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase">1 de 4 concluindo</span>
+</div>
+<!-- Card 1: Lucas (Current active) -->
+<div class="w-full p-3 rounded-lg bg-surface-container-lowest shadow-sm flex items-center justify-between gap-space-sm">
+<div class="flex items-center gap-space-sm min-w-0">
+<div class="w-7 h-7 rounded-full bg-primary text-on-primary font-headline-sm text-[13px] flex items-center justify-center flex-shrink-0 shadow-sm">
+          1
+        </div>
+<div class="w-10 h-10 rounded-full bg-primary-fixed overflow-hidden flex-shrink-0">
+<img class="w-full h-full object-cover" data-alt="Fun 3D avatar headshot of Lucas, wearing purple hat and friendly grin, colorful mobile game character asset" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBavNITZWAS3pq34eVh93jxTcLH5Pw-CI0fN4JfKoZ2spJ28yKVvak1AN9lsz6ciOiU0Y-YxPCpaHXOjFWfHctkWPbkXTQ3Km1zCm4qns3LVkdFoRRHb1LYZBw7vy7v9KGj177K2HLvvphZLweyZE4HT3X61n05Dzx4xbSSfm7nxqKGNSo4mdnWBUchLiM40EmcttFg7CLG_AxmNfGrdlVAdlLBL0VhOM-YUVqZHYSu"/>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-headline-sm text-headline-sm text-on-surface truncate">Lucas</span>
+<span class="font-body-sm text-body-sm text-primary flex items-center gap-1 font-bold">
+<span class="material-symbols-outlined text-[14px]">volume_up</span> No microfone
+          </span>
+</div>
+</div>
+<span class="px-2.5 py-1 rounded-full bg-primary text-on-primary font-label-sm text-label-sm uppercase flex items-center gap-1 shadow-sm">
+<span class="material-symbols-outlined text-[14px]">play_arrow</span> Vez Atual
+      </span>
+</div>
+<!-- Card 2: Bia (Next) -->
+<div class="w-full p-3 rounded-lg bg-surface-container-lowest shadow-sm flex items-center justify-between gap-space-sm">
+<div class="flex items-center gap-space-sm min-w-0">
+<div class="w-7 h-7 rounded-full bg-surface-container text-on-surface-variant font-headline-sm text-[13px] flex items-center justify-center flex-shrink-0">
+          2
+        </div>
+<div class="w-10 h-10 rounded-full bg-secondary-fixed overflow-hidden flex-shrink-0">
+<img class="w-full h-full object-cover" data-alt="Playful 3D cartoon avatar of a girl named Bia with yellow headband and cheerful expression, vibrant social deduction game style" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBVL2o0BGXVy6-JKygmRccKN6cFYk1rgH-KznLZ0toF8fhSL0-NnHyeZTpuMlB35ZcmdId5lSF-El2xTfUcqqhHdwBj3mi057RpEeHwMH5lniOv6JooGcuNQ07lszG8Y6JMDExgbBXh0kUGfXlwBp7tUV6gRWZoD-_q35xaFw97uRLBy7nJNDd6pl3JcwpKvD-kEo3xzQM3M_SCc67-A7-N3lpR3hfK9o-G0_j-GaQ7"/>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-headline-sm text-headline-sm text-on-surface truncate">Bia</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Próxima a falar</span>
+</div>
+</div>
+<span class="px-2.5 py-1 rounded-full bg-secondary-fixed text-on-secondary-fixed font-label-sm text-label-sm uppercase">
+        Na Fila
+      </span>
+</div>
+<!-- Card 3: Rafa (Waiting) -->
+<div class="w-full p-3 rounded-lg bg-surface-container-low shadow-sm flex items-center justify-between gap-space-sm opacity-85">
+<div class="flex items-center gap-space-sm min-w-0">
+<div class="w-7 h-7 rounded-full bg-surface-container text-on-surface-variant font-headline-sm text-[13px] flex items-center justify-center flex-shrink-0">
+          3
+        </div>
+<div class="w-10 h-10 rounded-full bg-tertiary-fixed overflow-hidden flex-shrink-0">
+<img class="w-full h-full object-cover" data-alt="Charming 3D stylized character portrait avatar of a funny boy named Rafa with round glasses and wavy hair, warm pastel background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBoujShEI-uapAllJPvNy-rnnlMBZQemn3Xf7S5wcVtTSq8jrCi3rDGw9w-YZ4oJ0xglCX-cWPL9KV8pkVm6ivMWZvleCcI2TceTkKUBL-ciqBHjaksLccILulQSqDCxB2vpq7Kk60KxxEADfGquvI5m46BNtz1fKrh_bRdPm2OdTViUDCljPBcQ4NOh7y74qZvkNOxKoPkaTlP46ky3qSYx8HUboTUICst0hAhezxJ"/>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-headline-sm text-headline-sm text-on-surface truncate">Rafa</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Aguardando turno</span>
+</div>
+</div>
+<span class="px-2.5 py-1 rounded-full bg-surface-container text-on-surface-variant font-label-sm text-label-sm uppercase">
+        Espera
+      </span>
+</div>
+<!-- Card 4: Gui (Waiting) -->
+<div class="w-full p-3 rounded-lg bg-surface-container-low shadow-sm flex items-center justify-between gap-space-sm opacity-85">
+<div class="flex items-center gap-space-sm min-w-0">
+<div class="w-7 h-7 rounded-full bg-surface-container text-on-surface-variant font-headline-sm text-[13px] flex items-center justify-center flex-shrink-0">
+          4
+        </div>
+<div class="w-10 h-10 rounded-full bg-surface-container-highest overflow-hidden flex-shrink-0">
+<img class="w-full h-full object-cover" data-alt="Playful 3D character portrait avatar of Gui with spiky green hair and smiling eyes, clean cartoon gaming vector style" src="https://lh3.googleusercontent.com/aida-public/AB6AXuApYZ6V-sACL5t7_OjPBnfudjLlznHB6ybpupMyohA07TdUAVUKHbauQi9N4BJQtRtzbLHzhMJBkdKfKrrI7g8cj_yyJGnjZ0VBPnHoNYm5IM5KRvFCfI6rLX9htOVRJZcvh7GjOEr_JV9Mv-wmNfx0U5fPpn4eJte6O3-dTEW8ikmdeClQLuekAeibs-GEK97JvzTgZ3atQJdSZvrG42_Bd0Wh20wmMB2eytOk4X5R"/>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-headline-sm text-headline-sm text-on-surface truncate">Gui</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Aguardando turno</span>
+</div>
+</div>
+<span class="px-2.5 py-1 rounded-full bg-surface-container text-on-surface-variant font-label-sm text-label-sm uppercase">
+        Espera
+      </span>
+</div>
+</section>
+<!-- Expandable Rule Reminder Pill Card -->
+<section class="rounded-lg bg-surface-container-lowest p-space-sm shadow-sm transition-all duration-200" id="card-regras">
+<button class="w-full flex items-center justify-between text-left" id="btn-toggle-conteudo-regras" type="button">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-[18px]">psychology_alt</span>
+</div>
+<span class="font-headline-sm text-headline-sm text-on-surface">Lembrete de Blefe &amp; Estratégia</span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant transition-transform" id="chevron-regras">expand_more</span>
+</button>
+<div class="hidden mt-space-sm pt-2 flex flex-col gap-2" id="conteudo-regras">
+<div class="flex items-start gap-2 p-2 rounded-DEFAULT bg-surface-container-low">
+<span class="material-symbols-outlined text-tertiary text-[18px] mt-0.5">sentiment_very_dissatisfied</span>
+<p class="font-body-sm text-body-sm text-on-surface">
+<strong class="text-tertiary">Se você é o Impostor:</strong> Finja naturalidade! Use as dicas dos outros para descobrir o objeto secreto sem levantar suspeitas.
+        </p>
+</div>
+<div class="flex items-start gap-2 p-2 rounded-DEFAULT bg-surface-container-low">
+<span class="material-symbols-outlined text-primary text-[18px] mt-0.5">verified_user</span>
+<p class="font-body-sm text-body-sm text-on-surface">
+<strong class="text-primary">Se você é Inocente:</strong> Dê pistas que só quem conhece a palavra entenderia, mas que não entreguem tudo de bandeja.
+        </p>
+</div>
+</div>
+</section>
+<!-- Sticky / Bottom Action Bar Buttons -->
+<div class="flex flex-col gap-space-xs mt-2">
+<!-- Primary Arcade Pass Turn Button -->
+<button class="relative w-full h-14 rounded-full bg-primary text-on-primary font-headline-sm text-headline-sm tracking-wide flex items-center justify-center gap-2 shadow-[0_4px_0_#3b0085] active:translate-y-1 active:shadow-[0_1px_0_#3b0085] transition-all" id="btn-passar-vez" type="button">
+<span>Passar a Vez para Bia</span>
+<span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+</button>
+<!-- Secondary Advance Phase Button -->
+<button class="w-full h-12 rounded-full bg-surface-container-lowest text-primary font-label-lg text-label-lg flex items-center justify-center gap-2 shadow-sm hover:bg-surface-container active:scale-98 transition-all" id="btn-iniciar-votacao" type="button">
+<span class="material-symbols-outlined text-[20px] text-tertiary-container">how_to_vote</span>
+<span class="text-on-surface">Encerrar Dicas &amp; Iniciar Votação</span>
+</button>
+</div>
+</div>
+<script>
+  (function() {
+    // Expandable rules toggle
+    const toggleBtn = document.getElementById('btn-toggle-conteudo-regras');
+    const helpBtn = document.getElementById('btn-regras-toggle');
+    const content = document.getElementById('conteudo-regras');
+    const chevron = document.getElementById('chevron-regras');
+
+    function toggleRules() {
+      if (content.classList.contains('hidden')) {
+        content.classList.remove('hidden');
+        chevron.style.transform = 'rotate(180deg)';
+      } else {
+        content.classList.add('hidden');
+        chevron.style.transform = 'rotate(0deg)';
+      }
+    }
+
+    if (toggleBtn) toggleBtn.addEventListener('click', toggleRules);
+    if (helpBtn) helpBtn.addEventListener('click', toggleRules);
+
+    // Interactive Countdown Mock
+    let secondsLeft = 38;
+    let isPaused = false;
+    const countdownEl = document.getElementById('countdown-text');
+    const progressBar = document.getElementById('turn-progress-bar');
+    const timerToggleBtn = document.getElementById('btn-timer-toggle');
+    const timerIcon = document.getElementById('timer-icon');
+
+    const timerInterval = setInterval(function() {
+      if (!isPaused && secondsLeft > 0) {
+        secondsLeft--;
+        if (countdownEl) countdownEl.textContent = secondsLeft + 's';
+        if (progressBar) {
+          const percent = (secondsLeft / 60) * 100;
+          progressBar.style.width = percent + '%';
+        }
+      }
+    }, 1000);
+
+    if (timerToggleBtn) {
+      timerToggleBtn.addEventListener('click', function() {
+        isPaused = !isPaused;
+        if (timerIcon) {
+          timerIcon.textContent = isPaused ? 'play_arrow' : 'pause';
+        }
+      });
+    }
+
+    // Button tactile responses
+    const passBtn = document.getElementById('btn-passar-vez');
+    if (passBtn) {
+      passBtn.addEventListener('click', function() {
+        passBtn.classList.add('bg-primary-container');
+        setTimeout(() => {
+          passBtn.classList.remove('bg-primary-container');
+        }, 180);
+      });
+    }
+  })();
+</script></main></body></html>

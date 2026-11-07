@@ -164,6 +164,72 @@ export function SparklesIcon(props: IconProps) {
   )
 }
 
+export function VolumeIcon(props: IconProps) {
+  return (
+    <Icon {...props}>
+      <path d="M4 10v4h3l4 3V7l-4 3H4Z" />
+      <path d="M15 9a4 4 0 0 1 0 6" />
+      <path d="M17.5 6.5a8 8 0 0 1 0 11" />
+    </Icon>
+  )
+}
+
+export function BookIcon(props: IconProps) {
+  return (
+    <Icon {...props}>
+      <path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v16H6.5A2.5 2.5 0 0 0 4 21V5.5Z" />
+      <path d="M4 5.5V21" />
+      <path d="M8 7h8M8 11h8" />
+    </Icon>
+  )
+}
+
+export function CategoryIcon(props: IconProps) {
+  return (
+    <Icon {...props}>
+      <circle cx="7" cy="7" r="2.5" />
+      <circle cx="17" cy="7" r="2.5" />
+      <circle cx="7" cy="17" r="2.5" />
+      <circle cx="17" cy="17" r="2.5" />
+    </Icon>
+  )
+}
+
+export function PlusIcon(props: IconProps) {
+  return (
+    <Icon {...props}>
+      <path d="M12 5v14M5 12h14" />
+    </Icon>
+  )
+}
+
+export function MinusIcon(props: IconProps) {
+  return (
+    <Icon {...props}>
+      <path d="M5 12h14" />
+    </Icon>
+  )
+}
+
+export function HistoryIcon(props: IconProps) {
+  return (
+    <Icon {...props}>
+      <path d="M3 12a9 9 0 1 0 3-6.7" />
+      <path d="M3 4v5h5" />
+      <path d="M12 7v5l3 2" />
+    </Icon>
+  )
+}
+
+export function HomeIcon(props: IconProps) {
+  return (
+    <Icon {...props}>
+      <path d="m3 11 9-7 9 7" />
+      <path d="M5 10v10h14V10M9 20v-6h6v6" />
+    </Icon>
+  )
+}
+
 export function MaskIcon(props: IconProps) {
   return (
     <Icon {...props}>

@@ -1,6 +1,8 @@
 import { type CSSProperties } from 'react'
 import { Button, IconButton } from '../components/Button'
+import { Badge, Card } from '../components/Primitives'
 import { ChevronDownIcon, InfoIcon, PaletteIcon, SlidersIcon } from '../components/Icons'
+import { CheckIcon } from '../components/Icons'
 import type { SetupDraft } from '../domain/types'
 
 interface SetupScreenProps {
@@ -50,7 +52,7 @@ export function SetupScreen({
         </div>
       </div>
 
-      <div className="setup-section">
+      <Card className="setup-section">
         <div className="row row--between">
           <div>
             <span className="field__label field__label--section">Jogadores</span>
@@ -62,45 +64,47 @@ export function SetupScreen({
             EDITAR
           </Button>
         </div>
-      </div>
+      </Card>
 
-      <div className="section">
-        <span className="field__label field__label--section">Tema das Palavras</span>
-        <button type="button" className="selector" onClick={onOpenCategory}>
-          <span className="selector__value">{draft.theme}</span>
-          <span className="selector__action">
-            Alterar <ChevronDownIcon size={16} />
-          </span>
-        </button>
-      </div>
+      <Card className="setup-options">
+        <div className="section">
+          <span className="field__label field__label--section">Tema das Palavras</span>
+          <button type="button" className="selector" onClick={onOpenCategory}>
+            <span className="selector__value">{draft.theme}</span>
+            <span className="selector__action">
+              Alterar <ChevronDownIcon size={16} />
+            </span>
+          </button>
+        </div>
 
-      <div className="section">
-        <div className="row row--between">
-          <span className="field__label field__label--section">
-            Rodadas completas: {draft.rounds}
-          </span>
-          <span className="chip">{draft.rounds}x</span>
+        <div className="section">
+          <div className="row row--between">
+            <span className="field__label field__label--section">
+              Rodadas completas: {draft.rounds}
+            </span>
+            <Badge>{draft.rounds}x</Badge>
+          </div>
+          <input
+            className="range"
+            type="range"
+            min={1}
+            max={20}
+            step={1}
+            value={draft.rounds}
+            onChange={(event) => onChange({ rounds: Number(event.target.value) })}
+            aria-label="Número de rodadas completas"
+            style={
+              {
+                '--range-progress': `${((draft.rounds - 1) / 19) * 100}%`,
+              } as CSSProperties
+            }
+          />
+          <div className="range-scale">
+            <span>1</span>
+            <span>20</span>
+          </div>
         </div>
-        <input
-          className="range"
-          type="range"
-          min={1}
-          max={20}
-          step={1}
-          value={draft.rounds}
-          onChange={(event) => onChange({ rounds: Number(event.target.value) })}
-          aria-label="Número de rodadas completas"
-          style={
-            {
-              '--range-progress': `${((draft.rounds - 1) / 19) * 100}%`,
-            } as CSSProperties
-          }
-        />
-        <div className="range-scale">
-          <span>1</span>
-          <span>20</span>
-        </div>
-      </div>
+      </Card>
 
       <div className="setup-bottom">
         <Button block onClick={handleStart}>
@@ -108,7 +112,11 @@ export function SetupScreen({
         </Button>
 
         <p className="hint hint--ok" aria-live="polite">
-          {filledCount >= 3 ? `✓ ${filledCount} participantes prontos` : '⚠️ Cadastre pelo menos 3 participantes'}
+          {filledCount >= 3 ? (
+            <><CheckIcon size={14} /> {filledCount} participantes prontos</>
+          ) : (
+            'Cadastre pelo menos 3 participantes'
+          )}
         </p>
       </div>
     </div>

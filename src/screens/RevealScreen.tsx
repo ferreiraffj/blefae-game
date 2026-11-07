@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { Button } from '../components/Button'
+import { AnimalAvatar } from '../components/AnimalAvatar'
+import { Badge, Card } from '../components/Primitives'
 import { SuspensePanel } from '../components/SuspensePanel'
 import type { GameState } from '../domain/types'
 import { shouldAnimateSuspense } from '../state/useSuspenseReveal'
@@ -51,13 +53,14 @@ export function RevealScreen({ game, onReveal }: RevealScreenProps) {
       </p>
 
       <div className="reveal__who">
-        <p className="muted">Vez de</p>
+        <Badge tone="neutral">VEZ DE</Badge>
+        <AnimalAvatar animalId={player.animalId} size="md" />
         <h2 className="reveal__name">{player.name}</h2>
       </div>
 
       <div className="reveal__stage">
         {stage === 'curtain' ? (
-          <div className="curtain panel">
+          <Card className="curtain">
             <span className="curtain__icon" aria-hidden="true">
               🔒
             </span>
@@ -66,7 +69,7 @@ export function RevealScreen({ game, onReveal }: RevealScreenProps) {
               abaixo.
             </p>
             <p className="curtain__hint">Ninguém mais deve olhar para a tela.</p>
-          </div>
+          </Card>
         ) : stage === 'suspense' ? (
           <SuspensePanel
             title="Revelando seu papel…"
@@ -74,11 +77,18 @@ export function RevealScreen({ game, onReveal }: RevealScreenProps) {
             icon="🎭"
           />
         ) : (
-          <div className={cx('role-card', isImpostor ? 'role-card--impostor' : 'role-card--civil')}>
+          <Card
+            className={cx('role-card', isImpostor ? 'role-card--impostor' : 'role-card--civil')}
+          >
             {isImpostor ? (
               <>
+                <Badge tone="danger">PAPEL SECRETO</Badge>
                 <span className="role-card__emoji" aria-hidden="true">
-                  🕵️
+                  <img
+                    className="role-card__impostor-image"
+                    src="/impostor.png"
+                    alt="Ilustração do impostor"
+                  />
                 </span>
                 <h3 className="role-card__title">VOCÊ É O IMPOSTOR!</h3>
                 <p className="role-card__text">
@@ -87,6 +97,7 @@ export function RevealScreen({ game, onReveal }: RevealScreenProps) {
               </>
             ) : (
               <>
+                <Badge tone="warning">PALAVRA DO GRUPO</Badge>
                 <span className="role-card__emoji" aria-hidden="true">
                   🤫
                 </span>
@@ -95,7 +106,7 @@ export function RevealScreen({ game, onReveal }: RevealScreenProps) {
                 <p className="role-card__theme">Tema: {game.theme}</p>
               </>
             )}
-          </div>
+          </Card>
         )}
       </div>
 

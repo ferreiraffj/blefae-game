@@ -8,14 +8,25 @@ import {
   type VisualThemeConfig,
 } from '../domain/types'
 import { THEMES } from '../domain/words'
+import { shuffledAnimals } from '../domain/animals'
 
 const GAME_KEY = 'blefae:game:v1'
-const VISUAL_THEME_KEY = 'blefae:visual-theme:v1'
+const VISUAL_THEME_KEY = 'blefae:visual-theme:v2'
 const SETUP_KEY = 'blefae:setup:v1'
 const GAME_MAX_AGE_MS = 24 * 60 * 60 * 1000
+const HISTORY_KEY = 'blefae:history:v1'
+const MAX_HISTORY_ITEMS = 20
+
+export interface GameHistoryEntry {
+  id: string
+  createdAt: number
+  rounds: number
+  playerNames: string[]
+}
 
 export const DEFAULT_SETUP: SetupDraft = {
   names: ['Jogador 1', 'Jogador 2', 'Jogador 3'],
+  animalIds: shuffledAnimals(3),
   theme: THEMES[1],
   rounds: 5,
   scoreConfig: DEFAULT_SCORE_CONFIG,
@@ -96,6 +107,35 @@ export function clearPersistedGame(): void {
   removeRaw(GAME_KEY)
 }
 
+export function loadGameHistory(): GameHistoryEntry[] {
+  const stored = readJson(HISTORY_KEY)
+  if (!Array.isArray(stored)) return []
+  return stored.filter(isHistoryEntry).slice(0, MAX_HISTORY_ITEMS)
+}
+
+export function recordGameHistory(game: GameState): void {
+  const history = loadGameHistory()
+  const entry: GameHistoryEntry = {
+    id: `${game.createdAt}-${Date.now()}`,
+    createdAt: Date.now(),
+    rounds: game.round,
+    playerNames: game.players.map((player) => player.name),
+  }
+  writeRaw(HISTORY_KEY, JSON.stringify([entry, ...history].slice(0, MAX_HISTORY_ITEMS)))
+}
+
+function isHistoryEntry(value: unknown): value is GameHistoryEntry {
+  if (!value || typeof value !== 'object') return false
+  const candidate = value as Partial<GameHistoryEntry>
+  return (
+    typeof candidate.id === 'string' &&
+    typeof candidate.createdAt === 'number' &&
+    typeof candidate.rounds === 'number' &&
+    Array.isArray(candidate.playerNames) &&
+    candidate.playerNames.every((name) => typeof name === 'string')
+  )
+}
+
 /** Indica que existe partida salva ainda em andamento (fora da tela inicial/final). */
 export function hasGameInProgress(): boolean {
   const { game } = loadGame()
@@ -147,6 +187,12 @@ export function loadSetupDraft(): SetupDraft {
     candidate.names.every((name) => typeof name === 'string')
       ? candidate.names
       : DEFAULT_SETUP.names
+  const animalIds =
+    Array.isArray(candidate.animalIds) &&
+    candidate.animalIds.length === names.length &&
+    candidate.animalIds.every((animal) => typeof animal === 'string')
+      ? candidate.animalIds
+      : shuffledAnimals(names.length)
   const theme =
     typeof candidate.theme === 'string' && THEMES.includes(candidate.theme)
       ? candidate.theme
@@ -167,6 +213,7 @@ export function loadSetupDraft(): SetupDraft {
 
   return {
     names,
+    animalIds,
     theme,
     rounds,
     scoreConfig,

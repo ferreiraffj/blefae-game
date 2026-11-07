@@ -23,15 +23,6 @@ function relativeLuminance(hex: string): number {
   )
 }
 
-/** Escurece uma cor preservando o matiz (para textos no tema claro). */
-function darkenHex(hex: string, amount: number): string {
-  const value = hex.replace('#', '')
-  const parts = [value.slice(0, 2), value.slice(2, 4), value.slice(4, 6)].map((part) =>
-    Math.round(Number.parseInt(part, 16) * (1 - amount)),
-  )
-  return `#${parts.map((part) => part.toString(16).padStart(2, '0')).join('')}`
-}
-
 /** Escolhe texto claro ou escuro com base no maior contraste. */
 function readableOn(hex: string): string {
   const luminance = relativeLuminance(hex)
@@ -62,7 +53,7 @@ export function useVisualTheme() {
   useEffect(() => {
     const root = document.documentElement
     const accent = accentByKey(config.accent)
-    const accentColor = resolved === 'light' ? darkenHex(accent.hex, 0.3) : accent.hex
+    const accentColor = accent.hex
 
     root.dataset.theme = resolved
     root.dataset.animations = config.smoothAnimations ? 'on' : 'off'
@@ -72,7 +63,7 @@ export function useVisualTheme() {
     root.style.setProperty('--radius', `${config.cornerRadius}px`)
 
     const themeColor = document.querySelector('meta[name="theme-color"]')
-    if (themeColor) themeColor.setAttribute('content', resolved === 'dark' ? '#0B0C12' : '#F7F5FC')
+    if (themeColor) themeColor.setAttribute('content', resolved === 'dark' ? '#181126' : '#FDFBF7')
   }, [config, resolved])
 
   return { config, setConfig, resolved }

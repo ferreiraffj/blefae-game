@@ -1,5 +1,6 @@
 import { Modal } from './Modal'
 import { Button } from './Button'
+import { CheckIcon } from './Icons'
 import { validatePlayerNames } from '../domain/engine'
 import type { SetupDraft } from '../domain/types'
 import { cx } from '../utils'
@@ -84,10 +85,10 @@ export function PlayerNamesModal({ names, onChange, onClose, onSave }: PlayerNam
         aria-live="polite"
       >
         {filledCount < 3
-          ? `⚠️ Preencha pelo menos 3 participantes (${filledCount}/3)`
+          ? `Preencha pelo menos 3 participantes (${filledCount}/3)`
           : hasDuplicates
-            ? '⚠️ Não repita nomes de jogadores!'
-            : `✓ ${filledCount} participantes prontos`}
+            ? 'Não repita nomes de jogadores!'
+            : <><CheckIcon size={14} /> {filledCount} participantes prontos</>}
       </p>
     </Modal>
   )

@@ -1,4 +1,5 @@
 import { Button } from '../components/Button'
+import { Card, PlayerChip } from '../components/Primitives'
 import type { GameState } from '../domain/types'
 
 interface SpeakingScreenProps {
@@ -20,7 +21,7 @@ export function SpeakingScreen({ game, onReady }: SpeakingScreenProps) {
           <p className="speaker__name">{firstSpeaker?.name ?? 'Primeiro jogador'}</p>
         </div>
 
-        <div className="panel speaker-order">
+        <Card className="panel speaker-order">
           <p className="rules__title">Ordem de fala:</p>
           <ol className="speaker-order__list">
             {game.speakerOrder.map((playerId, index) => {
@@ -29,14 +30,19 @@ export function SpeakingScreen({ game, onReady }: SpeakingScreenProps) {
 
               return (
                 <li key={player.id} className="speaker-order__item">
-                  <span className="speaker-order__position">{index + 1}</span>
-                  <span>{player.name}</span>
+                  <PlayerChip
+                    position={index + 1}
+                    animalId={player.animalId}
+                    active={index === 0}
+                  >
+                    {player.name}
+                  </PlayerChip>
                   {index === 0 ? <span className="speaker-order__first">começa</span> : null}
                 </li>
               )
             })}
           </ol>
-        </div>
+        </Card>
 
         <div className="panel rules">
           <p className="rules__title">Regras da rodada de dicas:</p>

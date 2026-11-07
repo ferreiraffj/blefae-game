@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Button } from '../components/Button'
 import { CheckIcon } from '../components/Icons'
+import { Badge, Card, PlayerChip } from '../components/Primitives'
 import type { GameState } from '../domain/types'
 import { cx } from '../utils'
 
@@ -29,11 +30,13 @@ export function VotingScreen({ game, onVote }: VotingScreenProps) {
       <p className="screen-sub screen-sub--center">
         Confirme que está com o aparelho e escolha seu suspeito:
       </p>
-      <p className="vote-progress">
-        Voto {votesCast + 1} de {game.players.length}
-      </p>
+      <Badge tone="warning" className="vote-progress">
+        VOTO {votesCast + 1} DE {game.players.length}
+      </Badge>
 
-      <div className="candidate-list scroll-area">
+      <Card className="candidate-card">
+        <p className="candidate-card__title">Quem está blefando?</p>
+        <div className="candidate-list scroll-area">
         {candidates.map((candidate) => {
           const selected = selectedTarget === candidate.id
           return (
@@ -44,7 +47,7 @@ export function VotingScreen({ game, onVote }: VotingScreenProps) {
               aria-pressed={selected}
               onClick={() => setSelectedTarget(candidate.id)}
             >
-              <span className="candidate__name">{candidate.name}</span>
+              <PlayerChip animalId={candidate.animalId} active={selected}>{candidate.name}</PlayerChip>
               {selected ? (
                 <span className="candidate__flag">
                   <CheckIcon size={16} /> Suspeito
@@ -55,7 +58,8 @@ export function VotingScreen({ game, onVote }: VotingScreenProps) {
             </button>
           )
         })}
-      </div>
+        </div>
+      </Card>
 
       <div className="screen__footer">
         <Button

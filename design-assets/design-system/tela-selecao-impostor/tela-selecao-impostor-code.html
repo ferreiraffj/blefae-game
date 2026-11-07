@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><meta content="mobile_stack" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@600;700&amp;family=Plus+Jakarta+Sans:wght@700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{width:100vw;margin:0;padding:0;}body{overscroll-behavior:none;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+          "surface-container": "#efeeea",
+          "surface-container-highest": "#e4e2de",
+          "primary-fixed-dim": "#d2bbff",
+          "on-error": "#ffffff",
+          "on-tertiary-fixed": "#410007",
+          "outline-variant": "#ccc3d7",
+          "on-surface": "#1b1c1a",
+          "surface-variant": "#e4e2de",
+          "inverse-primary": "#d2bbff",
+          "inverse-on-surface": "#f2f0ed",
+          "on-secondary-fixed": "#211b00",
+          "on-error-container": "#93000a",
+          "on-primary-container": "#d9c5ff",
+          "surface-container-high": "#eae8e4",
+          "tertiary-fixed-dim": "#ffb3b0",
+          "on-secondary-container": "#726200",
+          "tertiary-container": "#ac1b2a",
+          "surface": "#fbf9f5",
+          "on-primary-fixed": "#25005a",
+          "on-tertiary-container": "#ffbfbc",
+          "outline": "#7b7486",
+          "primary": "#5200b7",
+          "on-primary": "#ffffff",
+          "on-primary-fixed-variant": "#5a00c6",
+          "surface-dim": "#dbdad6",
+          "on-surface-variant": "#4a4455",
+          "on-background": "#1b1c1a",
+          "surface-container-lowest": "#ffffff",
+          "error-container": "#ffdad6",
+          "surface-tint": "#7332e0",
+          "secondary-fixed": "#fce264",
+          "primary-fixed": "#eaddff",
+          "on-secondary": "#ffffff",
+          "background": "#fbf9f5",
+          "error": "#ba1a1a",
+          "tertiary-fixed": "#ffdad8",
+          "secondary-container": "#f9e061",
+          "on-tertiary-fixed-variant": "#92001b",
+          "surface-container-low": "#f5f3ef",
+          "on-secondary-fixed-variant": "#524600",
+          "on-tertiary": "#ffffff",
+          "secondary-fixed-dim": "#dfc64b",
+          "inverse-surface": "#30312e",
+          "surface-bright": "#fbf9f5",
+          "secondary": "#6d5e00",
+          "primary-container": "#6c28d9",
+          "tertiary": "#870018"
+        },
+        "borderRadius": {
+          "DEFAULT": "1rem",
+          "lg": "2rem",
+          "xl": "3rem",
+          "full": "9999px"
+        },
+        "spacing": {
+          "margin-mobile": "1rem",
+          "space-sm": "0.5rem",
+          "space-xs": "0.25rem",
+          "margin-tablet": "2rem",
+          "gutter": "1rem",
+          "space-xl": "2.25rem",
+          "gutter-sm": "0.75rem",
+          "space-md": "1rem",
+          "margin": "1.25rem",
+          "space-lg": "1.5rem"
+        },
+        "fontFamily": {
+          "body-sm": ["Nunito Sans"],
+          "display-hero-mobile": ["Plus Jakarta Sans"],
+          "headline-md": ["Plus Jakarta Sans"],
+          "label-sm": ["Plus Jakarta Sans"],
+          "display-hero": ["Plus Jakarta Sans"],
+          "body-lg": ["Nunito Sans"],
+          "label-lg": ["Plus Jakarta Sans"],
+          "label-md": ["Plus Jakarta Sans"],
+          "headline-lg": ["Plus Jakarta Sans"],
+          "body-md": ["Nunito Sans"],
+          "headline-sm": ["Plus Jakarta Sans"]
+        },
+        "fontSize": {
+          "body-sm": ["13px", {"lineHeight": "18px", "fontWeight": "600"}],
+          "display-hero-mobile": ["32px", {"lineHeight": "38px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+          "headline-md": ["22px", {"lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "800"}],
+          "label-sm": ["11px", {"lineHeight": "14px", "letterSpacing": "0.04em", "fontWeight": "700"}],
+          "display-hero": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.03em", "fontWeight": "800"}],
+          "body-lg": ["17px", {"lineHeight": "24px", "fontWeight": "600"}],
+          "label-lg": ["16px", {"lineHeight": "20px", "letterSpacing": "0.02em", "fontWeight": "800"}],
+          "label-md": ["13px", {"lineHeight": "16px", "letterSpacing": "0.03em", "fontWeight": "800"}],
+          "headline-lg": ["28px", {"lineHeight": "34px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+          "body-md": ["15px", {"lineHeight": "22px", "fontWeight": "600"}],
+          "headline-sm": ["18px", {"lineHeight": "24px", "fontWeight": "700"}]
+        }
+      }
+    }
+  }</script><style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head><body class="bg-surface font-body-md text-body-md text-on-surface flex flex-col min-h-screen"><header class="fixed top-0 w-full z-50 bg-surface/85 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] pt-safe"><div class="h-16 px-margin flex items-center justify-between gap-space-sm"><div class="flex items-center gap-space-sm"><button class="w-11 h-11 rounded-full flex items-center justify-center text-on-surface hover:bg-surface-container active:scale-95 transition-all" onclick="history.back()"><span class="material-symbols-outlined text-[24px]">arrow_back</span></button><img alt="logo-wordmark.png" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/ALJJyrB_x36732vhnUZYqKUj9XRAVaLm0grMdaPKZyaXGXZlYCohf4UxQ7D0c_b2UqXxUUMrt5JzBEgDS1iO9BXRSEy4mwL_yawaatX5gEeJwMuiUl5FSl0nNdxdv0Ere4VwFAe7LYiWAI0UlgrbHMCxLz6Y6W3b88yFFlVY9roTfNoMxE9Ik4l-HX4CDlHx7oAdOOAEbiKynlRjCdeNLW64xgUw-aq9Jr-hA-SDSMb13-RpA4r1K7uWM09lUyrR"/><h1 class="font-headline-sm text-headline-sm text-on-surface">Active Match</h1></div><div class="flex items-center gap-space-xs"><div class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-surface-container-high text-on-surface-variant"><span class="w-2 h-2 rounded-full bg-primary"></span><span class="font-label-sm text-label-sm uppercase">Live</span></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="flex flex-col relative w-full pt-16 bg-surface min-h-screen"><div class="flex flex-col w-full px-margin pb-safe">
+<!-- Game Phase & Status Banner -->
+<div class="flex flex-col gap-space-xs mt-space-sm">
+<div class="flex items-center justify-between gap-space-xs">
+<div class="flex items-center gap-space-xs flex-wrap">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm uppercase tracking-wider shadow-sm">
+<span class="material-symbols-outlined text-[15px]" style="font-variation-settings: 'FILL' 1;">gavel</span>
+          Fase de Acusação
+        </span>
+<span class="inline-flex items-center px-2.5 py-1 rounded-full bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm">
+          Rodada 1/2
+        </span>
+</div>
+<!-- Animated Countdown Pill -->
+<div class="flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-container-lowest shadow-sm text-primary font-headline-sm text-headline-sm" id="timer-badge">
+<span class="material-symbols-outlined text-[18px]">timer</span>
+<span class="tabular-nums" id="countdown-text">00:42</span>
+</div>
+</div>
+<!-- Theme Context Tag -->
+<div class="flex items-center justify-between text-on-surface-variant">
+<span class="font-body-sm text-body-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px] text-primary">category</span>
+        Tema: <strong class="text-on-surface font-headline-sm text-headline-sm">Objetos Cotidianos</strong>
+</span>
+<span class="font-body-sm text-body-sm text-primary font-bold">4 Pistas Dadas</span>
+</div>
+</div>
+<!-- Header Prompt Area -->
+<div class="flex flex-col gap-1 mt-space-md mb-space-sm text-center">
+<h2 class="font-display-hero-mobile text-display-hero-mobile text-on-surface tracking-tight">
+      Quem está blefando?
+    </h2>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-[320px] mx-auto">
+      Debatam as pistas suspeitas e toquem no jogador que o grupo quer desmascarar!
+    </p>
+</div>
+<!-- Detective Illustration / Mascot Peek Banner -->
+<div class="relative w-full rounded-2xl bg-surface-container-high p-space-md flex items-center gap-space-md overflow-hidden shadow-sm my-space-xs">
+<div class="w-14 h-14 rounded-2xl bg-primary-container text-on-primary-container flex items-center justify-center shrink-0 shadow-md">
+<span class="material-symbols-outlined text-[32px]" style="font-variation-settings: 'FILL' 1;">psychology_alt</span>
+</div>
+<div class="flex flex-col min-w-0 pr-2">
+<div class="flex items-center gap-1 text-primary font-label-md text-label-md">
+<span class="material-symbols-outlined text-[16px]">visibility</span>
+<span>Atenção, detetives!</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2">
+        Se o grupo acertar o impostor, ele ainda terá <span class="text-on-surface font-bold">1 palpite final</span> para adivinhar a palavra secreta!
+      </p>
+</div>
+<!-- Decorative Stamp Accent -->
+<div class="absolute -right-4 -bottom-4 w-16 h-16 rounded-full bg-secondary-fixed/40 pointer-events-none"></div>
+</div>
+<!-- Interactive Voting Deck / Suspect Cards -->
+<div class="flex flex-col gap-space-sm mt-space-md" id="suspects-list">
+<!-- Suspect 1: Lucas (Current User) -->
+<div class="suspect-card relative w-full rounded-2xl bg-surface-container-lowest p-space-md flex items-center justify-between gap-space-sm transition-all duration-150 cursor-pointer shadow-sm select-none active:scale-[0.98]" id="card-lucas" onclick="selectSuspect('lucas', 'Lucas (Você)')">
+<div class="flex items-center gap-space-md min-w-0">
+<!-- Player Avatar -->
+<div class="relative w-14 h-14 rounded-full bg-surface-container-high flex items-center justify-center shrink-0">
+<img class="w-14 h-14 rounded-full object-cover" data-alt="Cute playful 3D cartoon avatar of a young guy wearing funny nerd glasses and smiling nervously, warm pastel sticker style on soft violet backdrop" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB84BW4K_vwgudp4plrgz-WXe-9lPTd2jO_InzlfDWbAXR8n-FpXOko_Mc8eSZ0Z9sDDegU95IiGziCnubGsHO7J64vqCSPcEo80LaGgj-Af1HnsNXjN3-cOfz0R0sQ9NueA2EtskbekAbYQLbTr4bYzWbGasC4Pt8m_O5L7kafNkfaBPPZPcSv4YpMwuj-UD_el34Rsv6INEDdKj-DDMr6qxaMsnraJQ9DOuCEYkcR"/>
+<span class="absolute -bottom-1 -right-1 px-1.5 py-0.5 rounded-full bg-surface-container-highest text-on-surface-variant font-label-sm text-[10px]">VOCÊ</span>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-1.5">
+<h3 class="font-headline-sm text-headline-sm text-on-surface truncate">Lucas</h3>
+<span class="px-2 py-0.5 rounded-full bg-surface-container text-on-surface-variant font-label-sm text-label-sm">Inocente?</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant truncate">
+            Pista: <em class="text-on-surface font-semibold">"Tem cerdas duras"</em>
+</p>
+</div>
+</div>
+<!-- Vote Counter Pill -->
+<div class="flex flex-col items-end shrink-0 gap-1">
+<span class="px-3 py-1 rounded-full bg-surface-container text-on-surface-variant font-label-md text-label-md" id="votes-lucas">0 Votos</span>
+<button class="px-2.5 py-1 rounded-full bg-surface-container-high hover:bg-primary/10 text-primary font-label-sm text-label-sm flex items-center gap-0.5" type="button">
+<span class="material-symbols-outlined text-[14px]">add</span> Acusar
+        </button>
+</div>
+</div>
+<!-- Suspect 2: Bia -->
+<div class="suspect-card relative w-full rounded-2xl bg-surface-container-lowest p-space-md flex items-center justify-between gap-space-sm transition-all duration-150 cursor-pointer shadow-sm select-none active:scale-[0.98]" id="card-bia" onclick="selectSuspect('bia', 'Bia')">
+<div class="flex items-center gap-space-md min-w-0">
+<!-- Player Avatar -->
+<div class="relative w-14 h-14 rounded-full bg-surface-container-high flex items-center justify-center shrink-0">
+<img class="w-14 h-14 rounded-full object-cover" data-alt="Playful 3D cartoon character avatar of a mischievous girl with purple space buns, expressive curious eyes, vibrant pop game illustration style" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBSbdWdrMsqqR4Q4haCcXlqZv6JcTW8hBSRY_yzXoo5XLwEnDfSelFYx3mPutI-HLySXsMFtxSbW2GieIruYmgutP8l0t7h8x4tfuYwtoEFNuq2zDQh4NaHC76WhWuFPWeri4NlzoRh59n1jkxcBjM8sEDctiY6IMrErOE-G6_iCOcL9Rw64NtzcKA6mMlQPXvIBHkaM-jJDhAz_rKdIs53r0Ewg83wrT_i8HcMsIRE"/>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-1.5">
+<h3 class="font-headline-sm text-headline-sm text-on-surface truncate">Bia</h3>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant truncate">
+            Pista: <em class="text-on-surface font-semibold">"Usa de manhã na pia"</em>
+</p>
+</div>
+</div>
+<!-- Vote Counter Pill -->
+<div class="flex flex-col items-end shrink-0 gap-1">
+<span class="px-3 py-1 rounded-full bg-surface-container text-on-surface-variant font-label-md text-label-md" id="votes-bia">1 Voto</span>
+<button class="px-2.5 py-1 rounded-full bg-surface-container-high hover:bg-primary/10 text-primary font-label-sm text-label-sm flex items-center gap-0.5" type="button">
+<span class="material-symbols-outlined text-[14px]">add</span> Acusar
+        </button>
+</div>
+</div>
+<!-- Suspect 3: Rafa (Selected / Prime Suspect) -->
+<div class="suspect-card relative w-full rounded-2xl bg-secondary-container p-space-md flex items-center justify-between gap-space-sm transition-all duration-150 cursor-pointer shadow-[0_6px_0_#d97706] translate-y-[-2px] select-none active:translate-y-[2px] active:shadow-[0_2px_0_#d97706]" id="card-rafa" onclick="selectSuspect('rafa', 'Rafa')">
+<!-- Top Badge / Suspect Pin -->
+<div class="absolute -top-3 left-6 px-2.5 py-0.5 rounded-full bg-tertiary-container text-on-tertiary-container font-label-sm text-label-sm uppercase tracking-wide flex items-center gap-1 shadow-sm">
+<span class="material-symbols-outlined text-[13px]" style="font-variation-settings: 'FILL' 1;">warning</span>
+        Mais Suspeito
+      </div>
+<div class="flex items-center gap-space-md min-w-0">
+<!-- Player Avatar with Crown/Wanted indicator -->
+<div class="relative w-14 h-14 rounded-full bg-surface-container-lowest flex items-center justify-center shrink-0 shadow-sm">
+<img class="w-14 h-14 rounded-full object-cover" data-alt="Charming 3D rendered character avatar of a crafty boy looking sideways with a sly smile, wearing detective fedora hat, arcade game styling" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCLMxOmp8SvtAmWwE_BkoPavrv_0m3iupGm--soIsU7Nf915nPRCVF4q4HLUbu8weJAUvX0wzPUKmeU8ek5CZ2Ya2pmBNL2YsCiGpPkqwkz5CLY9Cuj6pQIPOP-StLh88Jwcmu8wjLSdnpEoKN_hco_4iASfScs7aS6PPXKKI_jAnwZHvYwzZg6P1l4j7ELmHFT3xceoLr_ztnx9mJLyD5v5jCqMOQn3WblvSLH0yTq"/>
+<span class="absolute -top-1 -right-1 w-6 h-6 rounded-full bg-tertiary-container text-on-tertiary-container flex items-center justify-center shadow">
+<span class="material-symbols-outlined text-[14px]">fingerprint</span>
+</span>
+</div>
+<div class="flex flex-col min-w-0 text-on-secondary-container">
+<div class="flex items-center gap-1.5">
+<h3 class="font-headline-sm text-headline-sm text-on-secondary-container truncate">Rafa</h3>
+<span class="w-2.5 h-2.5 rounded-full bg-tertiary-container animate-ping"></span>
+</div>
+<p class="font-body-sm text-body-sm text-on-secondary-container truncate opacity-90">
+            Pista: <em class="font-bold">"Serve pra comer sopa"</em> ❓
+          </p>
+</div>
+</div>
+<!-- Vote Counter Pill & Selected Pin -->
+<div class="flex flex-col items-end shrink-0 gap-1.5">
+<span class="px-3.5 py-1 rounded-full bg-primary-container text-on-primary-container font-label-md text-label-md shadow-sm" id="votes-rafa">
+          2 Votos 🔥
+        </span>
+<div class="w-7 h-7 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined text-[18px]">check</span>
+</div>
+</div>
+</div>
+<!-- Suspect 4: Gui -->
+<div class="suspect-card relative w-full rounded-2xl bg-surface-container-lowest p-space-md flex items-center justify-between gap-space-sm transition-all duration-150 cursor-pointer shadow-sm select-none active:scale-[0.98]" id="card-gui" onclick="selectSuspect('gui', 'Gui')">
+<div class="flex items-center gap-space-md min-w-0">
+<!-- Player Avatar -->
+<div class="relative w-14 h-14 rounded-full bg-surface-container-high flex items-center justify-center shrink-0">
+<img class="w-14 h-14 rounded-full object-cover" data-alt="Playful 3D animated character avatar of a laughing curly-haired friend wearing headphones, bright and vibrant party visual design" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDAdjkTL7ud-3ppu1WRWMRFuN4yHOP3Es053gxT1nU0le8MVii_vVJ18-4iy2g2bLjJejBgl0XFvkgLp48s97Rll6BS4JDevCqny9FJ76AEatu6MaZOO0X4db17KCtoxtK-4_p9m_kIx7adh9FiXltzTQS0e651fv_SyLyQTYPc93gL6xo2K54Fw6bUMo7Xb2a16ne3ySIlnW_W-xqPUjOmPM9QHPehp4xiY1uPqv3p"/>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-1.5">
+<h3 class="font-headline-sm text-headline-sm text-on-surface truncate">Gui</h3>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant truncate">
+            Pista: <em class="text-on-surface font-semibold">"Guardo no copinho"</em>
+</p>
+</div>
+</div>
+<!-- Vote Counter Pill -->
+<div class="flex flex-col items-end shrink-0 gap-1">
+<span class="px-3 py-1 rounded-full bg-surface-container text-on-surface-variant font-label-md text-label-md" id="votes-gui">0 Votos</span>
+<button class="px-2.5 py-1 rounded-full bg-surface-container-high hover:bg-primary/10 text-primary font-label-sm text-label-sm flex items-center gap-0.5" type="button">
+<span class="material-symbols-outlined text-[14px]">add</span> Acusar
+        </button>
+</div>
+</div>
+</div>
+<!-- Clue Recap Mini Drawer -->
+<div class="my-space-md bg-surface-container p-space-md rounded-2xl flex flex-col gap-2 shadow-sm">
+<div class="flex items-center justify-between text-on-surface">
+<span class="font-label-md text-label-md flex items-center gap-1.5">
+<span class="material-symbols-outlined text-primary text-[18px]">quick_reference</span>
+        Dica da Rodada
+      </span>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase">Palavra Secreta</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+      A maioria dos jogadores sabe a palavra. O impostor precisou inventar uma pista às cegas! Rafa falou <strong class="text-on-surface">"Serve pra comer sopa"</strong> enquanto os outros mencionaram o banheiro.
+    </p>
+</div>
+<!-- Bottom Fixed Action Bar -->
+<div class="sticky bottom-0 w-full bg-surface/95 backdrop-blur-md pt-space-xs pb-space-lg flex flex-col gap-space-xs mt-space-sm z-30">
+<!-- Main Big Tactile Confirm Button -->
+<button class="w-full h-14 rounded-full bg-primary-container text-on-primary-container font-label-lg text-label-lg flex items-center justify-center gap-2 shadow-[0_5px_0_#4c1d95] active:translate-y-[3px] active:shadow-[0_2px_0_#4c1d95] transition-all" id="confirm-btn" onclick="confirmAccusation()">
+<span class="material-symbols-outlined text-[22px]" style="font-variation-settings: 'FILL' 1;">gavel</span>
+<span id="confirm-label">CONFIRMAR ACUSAÇÃO (Rafa)</span>
+</button>
+<!-- Secondary Split / Re-vote Action -->
+<div class="flex items-center justify-between gap-space-sm">
+<button class="flex-1 h-11 rounded-full bg-surface-container-high text-on-surface font-label-md text-label-md flex items-center justify-center gap-1.5 active:scale-95 transition-all shadow-sm" onclick="handleTieVote()">
+<span class="material-symbols-outlined text-[18px]">cached</span>
+        Houve Empate?
+      </button>
+<button class="px-4 h-11 rounded-full bg-surface-container text-on-surface-variant font-label-md text-label-md flex items-center justify-center gap-1 active:scale-95 transition-all" onclick="revealWordEarly()">
+<span class="material-symbols-outlined text-[18px]">lock_open</span>
+        Pular Rodada
+      </button>
+</div>
+</div>
+</div>
+<script>
+  let selectedId = 'rafa';
+  let selectedName = 'Rafa';
+  const voteCounts = { lucas: 0, bia: 1, rafa: 2, gui: 0 };
+
+  function selectSuspect(id, name) {
+    selectedId = id;
+    selectedName = name;
+
+    const cards = document.querySelectorAll('.suspect-card');
+    cards.forEach(card => {
+      card.className = "suspect-card relative w-full rounded-2xl bg-surface-container-lowest p-space-md flex items-center justify-between gap-space-sm transition-all duration-150 cursor-pointer shadow-sm select-none active:scale-[0.98]";
+      card.style.transform = '';
+      card.style.boxShadow = '';
+    });
+
+    const activeCard = document.getElementById('card-' + id);
+    if (activeCard) {
+      activeCard.className = "suspect-card relative w-full rounded-2xl bg-secondary-container p-space-md flex items-center justify-between gap-space-sm transition-all duration-150 cursor-pointer shadow-[0_6px_0_#d97706] translate-y-[-2px] select-none active:translate-y-[2px] active:shadow-[0_2px_0_#d97706]";
+    }
+
+    const label = document.getElementById('confirm-label');
+    if (label) {
+      label.innerText = `CONFIRMAR ACUSAÇÃO (${name.replace(' (Você)', '')})`;
+    }
+  }
+
+  function confirmAccusation() {
+    const btn = document.getElementById('confirm-btn');
+    btn.classList.add('scale-95');
+    setTimeout(() => {
+      btn.classList.remove('scale-95');
+      alert(`🎯 O grupo votou em ${selectedName}! O impostor agora revelará sua identidade!`);
+    }, 150);
+  }
+
+  function handleTieVote() {
+    alert("⚖️ Empate declarado! Cada suspeito tem 10 segundos para se defender antes da votação final!");
+  }
+
+  function revealWordEarly() {
+    alert("⏭️ Rodada pulada pelo mestre da sala.");
+  }
+
+  // Simple countdown ticker simulation
+  let seconds = 42;
+  const countdownEl = document.getElementById('countdown-text');
+  setInterval(() => {
+    if (seconds > 0) {
+      seconds--;
+      const s = seconds < 10 ? '0' + seconds : seconds;
+      if (countdownEl) countdownEl.innerText = `00:${s}`;
+      if (seconds <= 10) {
+        const badge = document.getElementById('timer-badge');
+        if (badge) {
+          badge.classList.remove('text-primary');
+          badge.classList.add('text-error', 'animate-pulse');
+        }
+      }
+    }
+  }, 1000);
+</script></main></body></html>

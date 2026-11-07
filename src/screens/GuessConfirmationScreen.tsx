@@ -1,4 +1,6 @@
 import { Button } from '../components/Button'
+import { AnimalAvatar } from '../components/AnimalAvatar'
+import { Badge, Card } from '../components/Primitives'
 import type { GameState } from '../domain/types'
 
 interface GuessConfirmationScreenProps {
@@ -11,12 +13,12 @@ export function GuessConfirmationScreen({ game, onConfirm }: GuessConfirmationSc
 
   return (
     <div className="screen screen--center">
-      <p className="eyebrow">VALIDAÇÃO DOS CIVIS</p>
+      <Badge tone="warning">VALIDAÇÃO DOS CIVIS</Badge>
 
       <div className="confirm">
         <p className="confirm__question">O grupo de civis deve validar:</p>
 
-        <div className="panel confirm__card">
+        <Card className="confirm__card">
           <div className="confirm__row">
             <span className="confirm__label">Palavra Secreta:</span>
             <span className="confirm__word">{game.word}</span>
@@ -24,11 +26,14 @@ export function GuessConfirmationScreen({ game, onConfirm }: GuessConfirmationSc
           <div className="divider" />
           <div className="confirm__row">
             <span className="confirm__label">
-              Palpite de {impostor?.name ?? 'Impostor'}:
+              Palpite de <span className="confirm__player">
+                <AnimalAvatar animalId={impostor?.animalId} size="sm" />
+                {impostor?.name ?? 'Impostor'}
+              </span>:
             </span>
             <span className="confirm__guess">{game.impostorGuess}</span>
           </div>
-        </div>
+        </Card>
 
         <p className="confirm__help">
           O palpite parece uma resposta parecida ou incompleta. O grupo considera esse palpite

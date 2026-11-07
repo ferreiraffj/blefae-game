@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { Button } from '../components/Button'
+import { Badge, Card, PlayerChip } from '../components/Primitives'
 import { SuspensePanel } from '../components/SuspensePanel'
 import { calculateRoundPoints } from '../domain/engine'
 import type { GameState } from '../domain/types'
@@ -38,17 +39,19 @@ export function ScoreScreen({ game, onNext }: ScoreScreenProps) {
 
   return (
     <div className="screen">
-      <p className="eyebrow">
+      <Badge tone="accent">
         {game.round > game.totalRounds
           ? 'PONTUAÇÃO DO DESEMPATE'
           : `PONTUAÇÃO DA RODADA ${game.round} / ${game.totalRounds}`}
-      </p>
+      </Badge>
 
       {wordRevealed ? (
         <>
-          <p className="score__word score__word--revealed">
+          <Card className="score-reveal">
+            <p className="score__word score__word--revealed">
             Palavra secreta: <strong>{game.word}</strong>
-          </p>
+            </p>
+          </Card>
           <p
             className={
               game.guessCorrect ? 'score__guess score__guess--right' : 'score__guess score__guess--wrong'
@@ -76,10 +79,9 @@ export function ScoreScreen({ game, onNext }: ScoreScreenProps) {
             return (
               <div className="score-row" key={player.id}>
                 <div className="score-row__top">
-                  <span className="score-row__name">
+                  <PlayerChip animalId={player.animalId} active={player.id === game.impostorId}>
                     {player.name}
-                    {player.id === game.impostorId ? ' (Impostor)' : ''}
-                  </span>
+                  </PlayerChip>
                   <span className="score-row__numbers">
                     <span className="muted">{player.points}</span>
                     <span className="score-row__plus">+{added}</span>

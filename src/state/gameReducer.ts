@@ -7,12 +7,14 @@ import {
   weightedSpeakerOrder,
 } from '../domain/engine'
 import { getMultipleChoiceOptions, randomWord } from '../domain/words'
+import { shuffledAnimals } from '../domain/animals'
 import type { GameState, GuessMode, Player, ScoreConfig } from '../domain/types'
 
 export type GameAction =
   | {
       type: 'START'
       names: string[]
+      animalIds: Player['animalId'][]
       theme: string
       totalRounds: number
       scoreConfig: ScoreConfig
@@ -31,8 +33,9 @@ export type GameAction =
   | { type: 'END_GAME' }
   | { type: 'RESET' }
 
-function createPlayers(names: readonly string[]): Player[] {
-  return names.map((name) => ({ id: createId(), name, points: 0 }))
+function createPlayers(names: readonly string[], animalIds: readonly Player['animalId'][]): Player[] {
+  const animals = animalIds.length === names.length ? animalIds : shuffledAnimals(names.length)
+  return names.map((name, index) => ({ id: createId(), name, points: 0, animalId: animals[index] }))
 }
 
 export function gameReducer(game: GameState | null, action: GameAction): GameState | null {
@@ -41,7 +44,7 @@ export function gameReducer(game: GameState | null, action: GameAction): GameSta
       return null
 
     case 'START': {
-      const players = createPlayers(action.names)
+      const players = createPlayers(action.names, action.animalIds)
       if (players.length < 3) return game
 
       const impostorId = players[Math.floor(Math.random() * players.length)].id
@@ -153,8 +156,16 @@ export function gameReducer(game: GameState | null, action: GameAction): GameSta
       if (!validation.ok) return game
 
       const previousByName = new Map(game.players.map((player) => [player.name, player]))
+      const usedAnimals = new Set(game.players.map((player) => player.animalId).filter(Boolean))
+      const newAnimals = shuffledAnimals(action.names.length)
       const players = validation.names.map(
-        (name) => previousByName.get(name) ?? { id: createId(), name, points: 0 },
+        (name) => {
+          const previous = previousByName.get(name)
+          if (previous) return previous
+          const animalId = newAnimals.find((candidate) => !usedAnimals.has(candidate))
+          if (animalId) usedAnimals.add(animalId)
+          return { id: createId(), name, points: 0, animalId }
+        },
       )
 
       return { ...game, players }

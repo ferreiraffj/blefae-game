@@ -1,3 +1,5 @@
+import type { AnimalId } from './animals'
+
 export type Phase =
   | 'SETUP'
   | 'REVEAL'
@@ -16,6 +18,7 @@ export interface Player {
   id: string
   name: string
   points: number
+  animalId?: AnimalId
 }
 
 export interface ScoreConfig {
@@ -73,6 +76,7 @@ export type SavedGameLike = Pick<
 
 export interface SetupDraft {
   names: string[]
+  animalIds: AnimalId[]
   theme: string
   rounds: number
   scoreConfig: ScoreConfig
@@ -108,18 +112,18 @@ export interface VisualThemeConfig {
 export const ACCENTS: readonly AccentDefinition[] = [
   { key: 'blue', label: 'Azul', hex: '#3B82F6' },
   { key: 'green', label: 'Verde', hex: '#22C55E' },
-  { key: 'yellow', label: 'Amarelo', hex: '#EAB308' },
-  { key: 'orange', label: 'Laranja', hex: '#F97316' },
-  { key: 'red', label: 'Vermelho', hex: '#EF4444' },
+  { key: 'yellow', label: 'Amarelo', hex: '#FFE566' },
+  { key: 'orange', label: 'Laranja', hex: '#FF7A59' },
+  { key: 'red', label: 'Vermelho', hex: '#FF5A5F' },
   { key: 'magenta', label: 'Magenta', hex: '#EC4899' },
-  { key: 'purple', label: 'Roxo', hex: '#8B5CF6' },
-  { key: 'cyan', label: 'Ciano', hex: '#06B6D4' },
-  { key: 'coral', label: 'Coral', hex: '#FF6B6B' },
+  { key: 'purple', label: 'Roxo', hex: '#6C28D9' },
+  { key: 'cyan', label: 'Ciano', hex: '#00B4D8' },
+  { key: 'coral', label: 'Coral', hex: '#FF5A5F' },
 ]
 
 export const DEFAULT_VISUAL_THEME: VisualThemeConfig = {
-  mode: 'dark',
-  accent: 'coral',
+  mode: 'light',
+  accent: 'purple',
   smoothAnimations: true,
   cornerRadius: 18,
 }

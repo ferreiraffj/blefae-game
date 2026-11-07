@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react'
 import { cx } from '../utils'
 
 interface SuspensePanelProps {
@@ -5,7 +6,7 @@ interface SuspensePanelProps {
   hint?: string
   variant?: 'default' | 'danger'
   compact?: boolean
-  icon?: string
+  icon?: ReactNode
 }
 
 /**

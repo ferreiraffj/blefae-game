@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { Button } from '../components/Button'
 import { TrophyIcon } from '../components/Icons'
+import { Badge, Card, PlayerChip } from '../components/Primitives'
 import { SuspensePanel } from '../components/SuspensePanel'
 import { topScorers } from '../domain/engine'
 import type { GameState } from '../domain/types'
@@ -72,9 +73,9 @@ export function FinishedScreen({ game, onNewGame, onStartTiebreaker }: FinishedS
         <span className="finished__trophy" aria-hidden="true">
           <TrophyIcon size={54} />
         </span>
-        <h2 className="finished__title">
+        <Badge tone="warning" className="finished__title">
           {game.endedEarly ? 'PARTIDA ENCERRADA!' : 'PARTIDA FINALIZADA!'}
-        </h2>
+        </Badge>
         <p className="finished__winner">
           {winner
             ? winners.length > 1
@@ -93,7 +94,7 @@ export function FinishedScreen({ game, onNewGame, onStartTiebreaker }: FinishedS
         ) : null}
       </div>
 
-      <div className="panel ranking">
+      <Card className="ranking">
         <p className="ranking__title">Classificação Final:</p>
         <ol className="ranking__list">
           {sorted.map((player) => {
@@ -103,17 +104,19 @@ export function FinishedScreen({ game, onNewGame, onStartTiebreaker }: FinishedS
                 key={player.id}
                 className={rank === 1 ? 'ranking__row ranking__row--first' : 'ranking__row'}
               >
-                <span className="ranking__position">{rank === 1 ? '🏆' : `${rank}º`}</span>
-                <span className="ranking__name">{player.name}</span>
+                <span className="ranking__position">
+                  {rank === 1 ? '🏆' : `${rank}º`}
+                </span>
+                <PlayerChip animalId={player.animalId} active={rank === 1}>{player.name}</PlayerChip>
                 <span className="ranking__points">{player.points} pts</span>
               </li>
             )
           })}
         </ol>
-      </div>
+      </Card>
 
       {showTiebreakerOffer ? (
-        <div className="panel tiebreak-offer">
+        <Card className="tiebreak-offer">
           <p className="tiebreak-offer__title">
             Empate entre {winners.length} jogadores!
           </p>
@@ -127,7 +130,7 @@ export function FinishedScreen({ game, onNewGame, onStartTiebreaker }: FinishedS
             </Button>
             <Button onClick={onStartTiebreaker}>JOGAR DESEMPATE</Button>
           </div>
-        </div>
+        </Card>
       ) : (
         <Button block onClick={onNewGame}>
           NOVA PARTIDA

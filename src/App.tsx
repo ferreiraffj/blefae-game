@@ -2,13 +2,14 @@ import { useEffect, useState } from 'react'
 import { AboutModal } from './components/AboutModal'
 import { CategoryModal } from './components/CategoryModal'
 import { EndGameDialog } from './components/EndGameDialog'
-import { DownloadIcon, FlagIcon, XIcon } from './components/Icons'
+import { FlagIcon, XIcon } from './components/Icons'
 import { InstallHelpModal } from './components/InstallHelpModal'
 import { PlayerNamesModal } from './components/PlayerNamesModal'
 import { RecoveryDialog } from './components/RecoveryDialog'
 import { ScoreConfigModal } from './components/ScoreConfigModal'
 import { VisualThemeModal } from './components/VisualThemeModal'
 import { validatePlayerNames } from './domain/engine'
+import { shuffledAnimals } from './domain/animals'
 import type { GameState, GuessMode, ScoreConfig, SetupDraft } from './domain/types'
 import { FinishedScreen } from './screens/FinishedScreen'
 import { GuessConfirmationScreen } from './screens/GuessConfirmationScreen'
@@ -17,17 +18,16 @@ import { ResultScreen } from './screens/ResultScreen'
 import { RevealScreen } from './screens/RevealScreen'
 import { RoundTransitionScreen } from './screens/RoundTransitionScreen'
 import { ScoreScreen } from './screens/ScoreScreen'
-import { SetupScreen } from './screens/SetupScreen'
 import { SpeakingScreen } from './screens/SpeakingScreen'
-import { StartScreen } from './screens/StartScreen'
+import { LandingScreen, StartScreen } from './screens/StartScreen'
 import { VotingScreen } from './screens/VotingScreen'
 import { useGameState } from './state/useGameState'
 import { useInstallPrompt } from './state/useInstallPrompt'
 import { useSetupDraft } from './state/useSetupDraft'
+import { loadGameHistory, recordGameHistory, type GameHistoryEntry } from './state/storage'
 import { useVisualTheme } from './state/useVisualTheme'
 import { useSeasonalTheme } from './state/useSeasonalTheme'
 import { preloadSounds, playSound } from './utils/sound'
-import { cx } from './utils'
 
 export default function App() {
   const { config: visualTheme, setConfig: setVisualTheme } = useVisualTheme()
@@ -41,7 +41,7 @@ export default function App() {
     discardRecoveredGame,
     recoveredGameExpired,
   } = useGameState()
-  const { canInstall, isIos, installed, promptInstall } = useInstallPrompt()
+  const { isIos, installed, promptInstall } = useInstallPrompt()
 
   const [themeModalOpen, setThemeModalOpen] = useState(false)
   const [scoreConfigOpen, setScoreConfigOpen] = useState(false)
@@ -52,6 +52,7 @@ export default function App() {
   const [endGameOpen, setEndGameOpen] = useState(false)
   const [aboutOpen, setAboutOpen] = useState(false)
   const [playersOpen, setPlayersOpen] = useState(false)
+  const [history, setHistory] = useState<GameHistoryEntry[]>(loadGameHistory)
 
   useEffect(() => {
     preloadSounds()
@@ -71,20 +72,38 @@ export default function App() {
   }, [])
 
   function updateDraft(patch: Partial<SetupDraft>) {
-    setDraft((current) => ({ ...current, ...patch }))
+    setDraft((current) => {
+      if (!patch.names) return { ...current, ...patch }
+      const previousAnimals = new Map(current.names.map((name, index) => [name, current.animalIds[index]]))
+      const usedAnimals = new Set<string>()
+      const fallbackAnimals = shuffledAnimals(patch.names.length)
+      const animalIds = patch.names.map((name, index) => {
+        const existing = previousAnimals.get(name)
+        if (existing && !usedAnimals.has(existing)) {
+          usedAnimals.add(existing)
+          return existing
+        }
+        const fallback = fallbackAnimals.find((animal) => !usedAnimals.has(animal)) ?? fallbackAnimals[index]
+        usedAnimals.add(fallback)
+        return fallback
+      })
+      return { ...current, ...patch, animalIds }
+    })
   }
 
-  function startGame() {
+  function startGame(): boolean {
     const validation = validatePlayerNames(draft.names)
-    if (!validation.ok) return
+    if (!validation.ok) return false
     dispatch({
       type: 'START',
       names: validation.names,
+      animalIds: draft.animalIds,
       theme: draft.theme,
       totalRounds: draft.rounds,
       scoreConfig: draft.scoreConfig,
       guessMode: draft.guessMode,
     })
+    return true
   }
 
   function saveScoreConfig(scoreConfig: ScoreConfig, guessMode: GuessMode) {
@@ -105,16 +124,20 @@ export default function App() {
     await handleInstall()
   }
 
+  const activeGame = game !== null && game.phase !== 'FINISHED'
+
   const setupScreen = (
-    <SetupScreen
+    <StartScreen
       draft={draft}
+      hasSavedGame={activeGame}
+      history={history}
       onChange={updateDraft}
+      onOpenPlayers={() => setPlayersOpen(true)}
+      onOpenCategory={() => setCategoryOpen(true)}
+      onPlay={startGame}
       onOpenScoreConfig={() => setScoreConfigOpen(true)}
       onOpenVisualTheme={() => setThemeModalOpen(true)}
       onOpenAbout={() => setAboutOpen(true)}
-      onOpenPlayers={() => setPlayersOpen(true)}
-      onOpenCategory={() => setCategoryOpen(true)}
-      onStart={startGame}
     />
   )
 
@@ -166,7 +189,12 @@ export default function App() {
         return (
           <FinishedScreen
             game={game}
-            onNewGame={() => dispatch({ type: 'RESET' })}
+            onNewGame={() => {
+              recordGameHistory(game)
+              setHistory(loadGameHistory())
+              dispatch({ type: 'RESET' })
+              setEntered(false)
+            }}
             onStartTiebreaker={() => dispatch({ type: 'START_TIEBREAKER' })}
           />
         )
@@ -177,8 +205,6 @@ export default function App() {
   }
 
   const screenKey = screenKeyFor(game)
-  const activeGame = game !== null && game.phase !== 'FINISHED'
-
   return (
     <div className="app" data-playing={entered && game ? 'true' : 'false'}>
       <div className="ambient" aria-hidden="true">
@@ -194,27 +220,15 @@ export default function App() {
       ) : null}
 
       <div className="app-frame">
-        {entered ? (
-          <header className="brand">
-            {activeGame ? (
-              <button
-                type="button"
-                className="brand__end"
-                onClick={() => setEndGameOpen(true)}
-              >
-                <FlagIcon size={13} />
-                Encerrar
-              </button>
-            ) : null}
-            <img
-              className="brand__logo"
-              src="/brand/logo-wordmark.png"
-              alt="Blefaê"
-              width={800}
-              height={533}
-            />
-            <p className="brand__tagline">Descubra quem está blefando</p>
-          </header>
+        {entered && activeGame ? (
+          <button
+            type="button"
+            className="brand__end app-frame__end"
+            onClick={() => setEndGameOpen(true)}
+          >
+            <FlagIcon size={13} />
+            Encerrar
+          </button>
         ) : null}
 
         {entered && expiredNotice ? (
@@ -231,29 +245,16 @@ export default function App() {
           </div>
         ) : null}
 
-        <main className={cx('app-card', !entered && 'app-card--start')}>
+        <main className="app-card">
           <div className="screen-wrap" key={entered ? screenKey : 'start'}>
             {entered ? (
               renderScreen()
             ) : (
-              <StartScreen
-                hasSavedGame={activeGame}
-                onPlay={() => setEntered(true)}
-              />
+              <LandingScreen onPlay={() => setEntered(true)} />
             )}
           </div>
         </main>
 
-        {entered ? (
-          canInstall ? (
-            <button type="button" className="install-link" onClick={handleInstall}>
-              <DownloadIcon size={16} />
-              Instalar o Blefaê
-            </button>
-          ) : (
-            <p className="app-footer">Desenvolvido por: @fellpsfr | github.com/ferreiraffj</p>
-          )
-        ) : null}
       </div>
 
       {themeModalOpen ? (

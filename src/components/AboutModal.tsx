@@ -110,27 +110,31 @@ export function AboutModal({ installed, isIos, onInstall, onClose }: AboutModalP
       ) : (
         <div className="about__news">
           <div className="about__news-release">
-            <span className="about__news-version">1.0.7</span>
-            <span className="about__news-date">6 de novembro de 2026</span>
+            <span className="about__news-version">{APP_VERSION}</span>
+            <span className="about__news-date">7 de novembro de 2026</span>
           </div>
 
           <section className="about__news-section">
             <h3>Novidades</h3>
             <ul>
-              <li>Edição de jogadores disponível entre as rodadas.</li>
-              <li>A ordem completa de fala agora aparece antes da rodada de dicas.</li>
-              <li>O impostor tem menor chance de ser sorteado como primeiro jogador.</li>
-              <li>Palpites parciais em palavras compostas passam pela validação dos civis.</li>
+              <li>Nova tela inicial com lobby visual para jogadores, baralho ativo e número de rodadas.</li>
+              <li>Navegação inferior com Início, Baralhos, Histórico e Regras.</li>
+              <li>Histórico local das partidas finalizadas, sem necessidade de conta ou servidor.</li>
+              <li>Doze avatares de animais atribuídos aos jogadores e mantidos durante toda a partida.</li>
+              <li>Menu lateral com configurações da partida, tema visual e informações sobre o app.</li>
+              <li>Contagem de palavras disponível diretamente no card do baralho.</li>
+              <li>Interface reposicionada para ocupar toda a tela, sem moldura externa ou conteúdo duplicado.</li>
             </ul>
           </section>
 
           <section className="about__news-section">
             <h3>Correções</h3>
             <ul>
-              <li>Corrigida a rejeição automática de palpites como “fone” para “Fone de ouvido”.</li>
-              <li>Corrigida a manutenção da pontuação ao editar jogadores entre rodadas.</li>
-              <li>Corrigida a validação de erros de digitação em palavras com múltiplos termos.</li>
-              <li>Corrigida a atualização visual do fluxo de configuração em telas pequenas.</li>
+              <li>Corrigido o início acidental direto no lobby, sem passar pela tela inicial.</li>
+              <li>Corrigido o retorno ao layout antigo ao iniciar uma nova partida.</li>
+              <li>Corrigida a inconsistência entre os animais exibidos no lobby e na partida.</li>
+              <li>Corrigido o menu que não apresentava suas opções ao ser aberto.</li>
+              <li>Preservadas as melhorias anteriores de responsividade, edição de jogadores, ordem de fala e palpites compostos.</li>
             </ul>
           </section>
         </div>

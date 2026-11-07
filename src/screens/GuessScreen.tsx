@@ -1,5 +1,7 @@
 import { useState } from 'react'
 import { Button } from '../components/Button'
+import { AnimalAvatar } from '../components/AnimalAvatar'
+import { Badge, Card } from '../components/Primitives'
 import type { GameState } from '../domain/types'
 import { cx } from '../utils'
 
@@ -22,10 +24,13 @@ export function GuessScreen({ game, onSubmit }: GuessScreenProps) {
         if (canSubmit) onSubmit(guess)
       }}
     >
-      <p className="eyebrow">ÚLTIMA CHANCE</p>
+      <Badge tone="danger">ÚLTIMA CHANCE</Badge>
 
       <div className="guess__head">
-        <p className="muted">Vez de {impostor?.name ?? 'Impostor'}</p>
+        <p className="muted guess__player">
+          <AnimalAvatar animalId={impostor?.animalId} size="sm" />
+          Vez de {impostor?.name ?? 'Impostor'}
+        </p>
         <h2 className="screen-title">Qual era a palavra secreta?</h2>
         <p className="accent-text">Tema da rodada: {game.theme}</p>
         {isMultipleChoice ? (
@@ -35,7 +40,9 @@ export function GuessScreen({ game, onSubmit }: GuessScreenProps) {
 
       <div className="guess__body scroll-area">
         {isMultipleChoice ? (
-          <div className="option-list" role="radiogroup" aria-label="Alternativas de palavra">
+          <Card className="guess-options">
+            <p className="guess-options__title">Escolha a palavra secreta</p>
+            <div className="option-list" role="radiogroup" aria-label="Alternativas de palavra">
             {game.guessOptions.map((option) => {
               const selected = guess === option
               return (
@@ -52,9 +59,11 @@ export function GuessScreen({ game, onSubmit }: GuessScreenProps) {
                 </button>
               )
             })}
-          </div>
+            </div>
+          </Card>
         ) : (
-          <label className="field">
+          <Card className="guess-input-card">
+            <label className="field">
             <span className="field__label">Seu palpite de palavra</span>
             <input
               className="input input--lg"
@@ -67,7 +76,8 @@ export function GuessScreen({ game, onSubmit }: GuessScreenProps) {
               maxLength={60}
               enterKeyHint="done"
             />
-          </label>
+            </label>
+          </Card>
         )}
       </div>
 
