@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { Button } from '../components/Button'
 import { AnimalAvatar } from '../components/AnimalAvatar'
+import { EyeOffIcon, FlagIcon, LockIcon } from '../components/Icons'
 import { Badge, Card } from '../components/Primitives'
 import { SuspensePanel } from '../components/SuspensePanel'
 import type { GameState } from '../domain/types'
@@ -11,11 +12,12 @@ import { playSound } from '../utils/sound'
 interface RevealScreenProps {
   game: GameState
   onReveal: (playerId: string) => void
+  onEndGame: () => void
 }
 
 type RevealStage = 'curtain' | 'suspense' | 'role'
 
-export function RevealScreen({ game, onReveal }: RevealScreenProps) {
+export function RevealScreen({ game, onReveal, onEndGame }: RevealScreenProps) {
   const player = game.players[game.revealIndex]
   const [stage, setStage] = useState<RevealStage>('curtain')
   const soundPlayedFor = useRef<string | null>(null)
@@ -45,17 +47,17 @@ export function RevealScreen({ game, onReveal }: RevealScreenProps) {
 
   return (
     <div className="screen screen--center reveal">
-      <p className="eyebrow">
-        {isTiebreaker
-          ? 'RODADA DE DESEMPATE'
-          : `RODADA ${game.round} / ${game.totalRounds}`}{' '}
-        · {game.theme}
-      </p>
-
-      <div className="reveal__who">
-        <Badge tone="neutral">VEZ DE</Badge>
-        <AnimalAvatar animalId={player.animalId} size="md" />
-        <h2 className="reveal__name">{player.name}</h2>
+      <div className="reveal__header">
+        <div className="reveal__round">
+          <span className="reveal__round-dot" />
+          {isTiebreaker
+            ? 'RODADA DE DESEMPATE'
+            : `RODADA ${game.round} DE ${game.totalRounds}`}
+        </div>
+        <div className="reveal__turn">
+          <AnimalAvatar animalId={player.animalId} size="sm" />
+          <span>Vez de <strong>{player.name}</strong></span>
+        </div>
       </div>
 
       <div className="reveal__stage">
@@ -82,28 +84,34 @@ export function RevealScreen({ game, onReveal }: RevealScreenProps) {
           >
             {isImpostor ? (
               <>
-                <Badge tone="danger">PAPEL SECRETO</Badge>
-                <span className="role-card__emoji" aria-hidden="true">
-                  <img
-                    className="role-card__impostor-image"
-                    src="/impostor.png"
-                    alt="Ilustração do impostor"
-                  />
-                </span>
+                <Badge tone="danger"><LockIcon size={16} /> SECRETO · APENAS VOCÊ DEVE VER</Badge>
+                <img
+                  className="role-card__impostor-image"
+                  src="/impostor.png"
+                  alt="Ilustração do impostor"
+                />
                 <h3 className="role-card__title">VOCÊ É O IMPOSTOR!</h3>
-                <p className="role-card__text">
-                  Finja que sabe a palavra secreta, preste atenção nas dicas e tente descobrir!
-                </p>
+                <p className="role-card__subtitle">Shhh... Ninguém pode desconfiar! 🤫</p>
+                <div className="role-card__theme-row">
+                  <span>▱ <strong>Tema da rodada</strong></span>
+                  <strong>{game.theme}</strong>
+                </div>
+                <div className="role-card__mission">
+                  <strong>Sua Missão:</strong> Você NÃO sabe a palavra secreta!
+                  <span>Finja que sabe, pesque pistas no ar e tente adivinhar o objeto antes que descubram seu blefe.</span>
+                </div>
               </>
             ) : (
               <>
-                <Badge tone="warning">PALAVRA DO GRUPO</Badge>
-                <span className="role-card__emoji" aria-hidden="true">
-                  🤫
-                </span>
-                <p className="eyebrow">PALAVRA SECRETA:</p>
+                <Badge tone="warning"><EyeOffIcon size={17} /> CONFIDENCIAL · APENAS PARA OS SEUS OLHOS</Badge>
+                <div className="role-card__civil-visual" aria-hidden="true">🤖</div>
+                <Badge tone="accent">🛡 VOCÊ É INOCENTE</Badge>
+                <p className="role-card__word-label">SUA PALAVRA SECRETA</p>
                 <p className="role-card__word">{game.word}</p>
-                <p className="role-card__theme">Tema: {game.theme}</p>
+                <p className="role-card__instruction">
+                  Você conhece o segredo! Na sua vez, dê uma <strong>dica sutil</strong> que os
+                  inocentes entendam, sem entregar a palavra ao <strong>impostor</strong>.
+                </p>
               </>
             )}
           </Card>
@@ -122,14 +130,19 @@ export function RevealScreen({ game, onReveal }: RevealScreenProps) {
         ) : (
           <Button
             block
+            className={isImpostor ? 'reveal__pass reveal__pass--impostor' : 'reveal__pass'}
             onClick={() => {
               setStage('curtain')
               onReveal(player.id)
             }}
           >
-            OCULTAR E PASSAR CELULAR
+            <><span aria-hidden="true">▣</span> OCULTAR E PASSAR CELULAR</>
           </Button>
         )}
+        <button type="button" className="reveal__end" onClick={onEndGame}>
+          <FlagIcon size={13} />
+          ENCERRAR PARTIDA
+        </button>
       </div>
     </div>
   )

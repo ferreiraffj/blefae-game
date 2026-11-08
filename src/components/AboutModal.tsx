@@ -13,6 +13,34 @@ interface AboutModalProps {
 
 export function AboutModal({ installed, isIos, onInstall, onClose }: AboutModalProps) {
   const [page, setPage] = useState<'about' | 'news'>('about')
+  const [shareStatus, setShareStatus] = useState<'idle' | 'shared' | 'copied' | 'error'>('idle')
+
+  async function handleShare() {
+    const shareData = {
+      title: 'Blefaê',
+      text: 'Descubra quem está blefando no Blefaê!',
+      url: window.location.href,
+    }
+
+    try {
+      if (navigator.share) {
+        await navigator.share(shareData)
+        setShareStatus('shared')
+        return
+      }
+
+      if (!navigator.clipboard) {
+        setShareStatus('error')
+        return
+      }
+
+      await navigator.clipboard.writeText(window.location.href)
+      setShareStatus('copied')
+    } catch (error) {
+      if (error instanceof DOMException && error.name === 'AbortError') return
+      setShareStatus('error')
+    }
+  }
 
   return (
     <Modal
@@ -101,6 +129,21 @@ export function AboutModal({ installed, isIos, onInstall, onClose }: AboutModalP
                 {isIos ? 'COMO INSTALAR' : 'INSTALAR O APP'}
               </Button>
             )}
+          </div>
+
+          <div className="about__share">
+            <Button block variant="ghost" icon={<ShareIcon size={18} />} onClick={handleShare}>
+              COMPARTILHAR O JOGO
+            </Button>
+            <p className="about__share-status" role="status" aria-live="polite">
+              {shareStatus === 'shared'
+                ? 'Compartilhamento aberto.'
+                : shareStatus === 'copied'
+                  ? 'Link copiado! Agora é só enviar para seus amigos.'
+                  : shareStatus === 'error'
+                    ? 'Não foi possível compartilhar ou copiar o link.'
+                    : 'Convide seus amigos para jogar Blefaê.'}
+            </p>
           </div>
 
           <Button variant="ghost" block onClick={() => setPage('news')}>

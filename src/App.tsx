@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { AboutModal } from './components/AboutModal'
 import { CategoryModal } from './components/CategoryModal'
 import { EndGameDialog } from './components/EndGameDialog'
-import { FlagIcon, XIcon } from './components/Icons'
+import { XIcon } from './components/Icons'
 import { InstallHelpModal } from './components/InstallHelpModal'
 import { PlayerNamesModal } from './components/PlayerNamesModal'
 import { RecoveryDialog } from './components/RecoveryDialog'
@@ -150,6 +150,7 @@ export default function App() {
           <RevealScreen
             game={game}
             onReveal={(playerId) => dispatch({ type: 'REVEAL_PLAYER', playerId })}
+            onEndGame={() => setEndGameOpen(true)}
           />
         )
       case 'SPEAKING':
@@ -220,17 +221,6 @@ export default function App() {
       ) : null}
 
       <div className="app-frame">
-        {entered && activeGame ? (
-          <button
-            type="button"
-            className="brand__end app-frame__end"
-            onClick={() => setEndGameOpen(true)}
-          >
-            <FlagIcon size={13} />
-            Encerrar
-          </button>
-        ) : null}
-
         {entered && expiredNotice ? (
           <div className="notice" role="status">
             <span>A partida anterior expirou após 24 horas.</span>

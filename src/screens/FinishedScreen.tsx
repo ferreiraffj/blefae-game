@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
 import { Button } from '../components/Button'
-import { TrophyIcon } from '../components/Icons'
 import { Badge, Card, PlayerChip } from '../components/Primitives'
 import { SuspensePanel } from '../components/SuspensePanel'
 import { topScorers } from '../domain/engine'
@@ -70,9 +69,11 @@ export function FinishedScreen({ game, onNewGame, onStartTiebreaker }: FinishedS
       )}
     >
       <div className="finished__hero">
-        <span className="finished__trophy" aria-hidden="true">
-          <TrophyIcon size={54} />
-        </span>
+        <img
+          className="finished__winner-image"
+          src="/character-vencedor.png"
+          alt="Personagem comemorando a vitória"
+        />
         <Badge tone="warning" className="finished__title">
           {game.endedEarly ? 'PARTIDA ENCERRADA!' : 'PARTIDA FINALIZADA!'}
         </Badge>
