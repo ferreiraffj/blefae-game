@@ -2137,7 +2137,7 @@ html[data-theme='light'] .hint--error {
   gap: 14px;
   width: 100%;
   max-width: 640px;
-  max-height: 460px;
+  max-height: 640px;
   padding: 28px 34px 30px;
   border: 0;
   border-radius: 30px;
