@@ -1965,7 +1965,7 @@ html[data-theme='light'] .hint--error {
 
 .reveal {
   gap: 12px;
-  padding: 14px 28px 22px;
+  padding: calc(14px + var(--safe-top)) 28px calc(22px + var(--safe-bottom));
   overflow-y: auto;
 }
 
@@ -2082,11 +2082,11 @@ html[data-theme='light'] .hint--error {
 }
 
 .reveal__pass {
-  min-height: 64px;
+  min-height: 56px;
   border-radius: 999px;
   background: var(--accent);
   box-shadow: 0 5px 0 #4c1d95;
-  font-size: clamp(14px, 3.8vw, 20px);
+  font-size: clamp(13px, 3.4vw, 18px);
 }
 
 .reveal__pass--impostor {
@@ -2148,6 +2148,8 @@ html[data-theme='light'] .hint--error {
 }
 
 .role-card--impostor {
+  gap: 10px;
+  padding: 20px 24px 22px;
   background: var(--surface-solid);
 }
 
@@ -2187,8 +2189,8 @@ html[data-theme='light'] .hint--error {
 }
 
 .role-card__impostor-image {
-  width: min(48vw, 240px);
-  height: min(38vw, 210px);
+  width: min(40vw, 190px);
+  height: min(30vw, 155px);
   object-fit: contain;
   object-position: center;
   filter: drop-shadow(0 10px 12px rgba(76, 29, 149, 0.22));
@@ -2198,7 +2200,7 @@ html[data-theme='light'] .hint--error {
   margin: 0;
   color: #a51620;
   font-family: var(--font-display);
-  font-size: clamp(30px, 7vw, 54px);
+  font-size: clamp(27px, 6.2vw, 46px);
   font-weight: 900;
   line-height: 0.98;
   letter-spacing: -0.01em;
@@ -2208,7 +2210,7 @@ html[data-theme='light'] .hint--error {
   margin: -7px 0 0;
   color: var(--text-soft);
   font-family: var(--font-display);
-  font-size: 18px;
+  font-size: 16px;
 }
 
 .role-card__theme-row{
@@ -2217,12 +2219,12 @@ html[data-theme='light'] .hint--error {
   flex-wrap: wrap !important;
   justify-content: center !important;
   align-items: center !important;
-  gap: 14px;
-  padding: 18px;
+  gap: 10px;
+  padding: 13px;
   border-radius: 10px;
   background: var(--surface-2);
   color: var(--text-soft);
-  font-size: 16px;
+  font-size: 14px;
   text-align: center;
 }
 
@@ -2232,7 +2234,7 @@ html[data-theme='light'] .hint--error {
   word-break: break-word !important;
   color: var(--accent);
   font-family: var(--font-display);
-  font-size: 24px;
+  font-size: 20px;
   text-align: right;
 }
 
@@ -2241,11 +2243,11 @@ html[data-theme='light'] .hint--error {
   flex-direction: column;
   gap: 5px;
   width: 100%;
-  padding: 18px;
+  padding: 13px;
   border-radius: 10px;
   background: rgba(var(--danger-rgb), 0.1);
   color: var(--text);
-  font-size: 6px;
+  font-size: 14px;
   line-height: 1.45;
   text-align: left;
 }
@@ -4232,16 +4234,21 @@ html[data-animations='off'] .seasonal-effects__bat {
   }
 
   .role-card__mission {
-    font-size: 10px;
+    font-size: 13px;
   }
 
   .reveal__pass {
-    min-height: 54px;
+    min-height: 50px;
   }
 
   .screen {
     gap: 10px;
     padding: 14px;
+  }
+
+  .screen.reveal {
+    gap: 8px;
+    padding: calc(10px + var(--safe-top)) 14px calc(14px + var(--safe-bottom));
   }
 
   .screen--setup {
