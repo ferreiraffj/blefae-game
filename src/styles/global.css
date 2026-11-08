@@ -1597,6 +1597,8 @@ html[data-season='halloween'] .brand__logo {
   border-radius: var(--radius-lg);
   background: var(--surface-solid);
   box-shadow: 0 4px 16px rgba(108, 40, 217, 0.08);
+  width: fit-content;
+  max-width: 300px;
 }
 
 .ui-card--accent {
@@ -1969,7 +1971,7 @@ html[data-theme='light'] .hint--error {
 
 .reveal__header {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   width: 100%;
   max-width: 640px;
@@ -1980,7 +1982,11 @@ html[data-theme='light'] .hint--error {
   display: flex;
   align-items: center;
   gap: 8px;
+  padding: 12px 14px;
   color: var(--muted);
+  border-radius: 999px;
+  background: var(--surface-solid);
+  box-shadow: 0 3px 12px rgba(76, 29, 149, 0.08);
   font-family: var(--font-display);
   font-size: 15px;
   font-weight: 700;
@@ -2038,7 +2044,7 @@ html[data-theme='light'] .hint--error {
   display: flex;
   justify-content: center;
   width: 100%;
-  max-width: 640px;
+  max-width: 580px;
 }
 
 .reveal__action {
@@ -2131,6 +2137,7 @@ html[data-theme='light'] .hint--error {
   gap: 14px;
   width: 100%;
   max-width: 640px;
+  max-height: 460px;
   padding: 28px 34px 30px;
   border: 0;
   border-radius: 30px;
@@ -2238,7 +2245,7 @@ html[data-theme='light'] .hint--error {
   border-radius: 10px;
   background: rgba(var(--danger-rgb), 0.1);
   color: var(--text);
-  font-size: 16px;
+  font-size: 6px;
   line-height: 1.45;
   text-align: left;
 }
@@ -4225,7 +4232,7 @@ html[data-animations='off'] .seasonal-effects__bat {
   }
 
   .role-card__mission {
-    font-size: 14px;
+    font-size: 10px;
   }
 
   .reveal__pass {

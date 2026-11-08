@@ -105,7 +105,7 @@ export function RevealScreen({ game, onReveal, onEndGame }: RevealScreenProps) {
               </>
             ) : (
               <>
-                <Badge tone="warning"><EyeOffIcon size={17} /> CONFIDENCIAL</Badge>
+                {/* <Badge tone="warning"><EyeOffIcon size={17} /> CONFIDENCIAL</Badge> */}
                 <div className="role-card__civil-visual" aria-label={`Ilustração de ${game.word}`}>
                   {secretWordVisual.imageSrc ? (
                     <img src={secretWordVisual.imageSrc} alt="" />
@@ -113,8 +113,8 @@ export function RevealScreen({ game, onReveal, onEndGame }: RevealScreenProps) {
                     <span aria-hidden="true">{secretWordVisual.emoji}</span>
                   )}
                 </div>
-                <Badge tone="accent">🛡 VOCÊ É INOCENTE</Badge>
-                <p className="role-card__word-label">SUA PALAVRA SECRETA</p>
+                {/* <Badge tone="accent">🛡 VOCÊ É INOCENTE</Badge> */}
+                <p className="role-card__word-label">SUA PALAVRA SECRETA É:</p>
                 <p className="role-card__word">{game.word}</p>
                 <p className="role-card__instruction">
                   Você conhece o segredo! Na sua vez, dê uma <strong>dica sutil</strong> que os
